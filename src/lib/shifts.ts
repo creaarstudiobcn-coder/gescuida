@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { decrypt } from "@/lib/encryption";
-import type { Shift, ShiftStatus } from "@prisma/client";
+import type { Shift, ShiftStatus, DayType } from "@prisma/client";
 
 // ── Serialización segura según quién mira ──
 
@@ -68,6 +68,39 @@ export function shiftForCaregiver(
     // Datos completos solo si está asignada:
     address: isAssigned ? decrypt(s.addressEnc) : null,
     recipientName: isAssigned ? s.careRecipient?.name ?? null : null,
+  };
+}
+
+// Vista PRE-ACEPTACIÓN para la lista de turnos disponibles. Recibe un turno SIN datos
+// sensibles (la consulta los excluye a propósito) y NUNCA puede revelar la dirección ni el
+// nombre de la persona: ambos van fijos a null. Lo único de ubicación es la zona/municipio.
+export function shiftForCaregiverPreview(
+  s: {
+    id: string;
+    start: Date;
+    end: Date;
+    durationHours: number;
+    zone: string;
+    status: ShiftStatus;
+    dayType: DayType;
+    careSummary: string | null;
+  },
+  viewerRate?: { minCents: number | null; maxCents: number | null }
+) {
+  return {
+    id: s.id,
+    start: s.start,
+    end: s.end,
+    durationHours: s.durationHours,
+    zone: s.zone, // municipio aproximado — único dato de ubicación antes de aceptar
+    status: s.status,
+    dayType: s.dayType,
+    careSummary: s.careSummary,
+    rateMinCents: viewerRate?.minCents ?? null,
+    rateMaxCents: viewerRate?.maxCents ?? null,
+    isAssigned: false,
+    address: null, // NUNCA antes de aceptar
+    recipientName: null, // NUNCA antes de aceptar
   };
 }
 

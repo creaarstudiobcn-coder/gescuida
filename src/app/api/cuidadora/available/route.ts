@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { apiAuth } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
-import { shiftForCaregiver } from "@/lib/shifts";
+import { shiftForCaregiverPreview } from "@/lib/shifts";
 
 // Turnos disponibles cerca de la cuidadora (sin asignar, en sus municipios).
-// La dirección NO se incluye: solo la zona aproximada, hasta que acepte.
+// SEGURIDAD: aquí NO se carga ni se devuelve la dirección ni el nombre de la persona;
+// solo la zona aproximada. La dirección completa solo se revela tras ACEPTAR el turno
+// (ver /api/cuidadora/agenda + shiftForCaregiver, que descifra solo a la cuidadora asignada).
 export async function GET() {
   const { user, res } = await apiAuth("CUIDADORA");
   if (res) return res;
@@ -27,7 +29,18 @@ export async function GET() {
       ...(zones.length ? { zone: { in: zones } } : {}),
       id: { notIn: rejectedIds.length ? rejectedIds : undefined },
     },
-    include: { careRecipient: { select: { name: true, age: true, zone: true } } },
+    // Solo campos SEGUROS antes de aceptar. NO se selecciona `addressEnc` ni la relación
+    // `careRecipient`: la dirección y el nombre ni siquiera salen de la base de datos.
+    select: {
+      id: true,
+      start: true,
+      end: true,
+      durationHours: true,
+      zone: true,
+      status: true,
+      dayType: true,
+      careSummary: true,
+    },
     orderBy: { start: "asc" }, // "cercanía" temporal; las de su zona ya están filtradas
   });
 
@@ -41,6 +54,6 @@ export async function GET() {
     zones,
     rateMin: viewerRate.minCents != null ? viewerRate.minCents / 100 : null,
     rateMax: viewerRate.maxCents != null ? viewerRate.maxCents / 100 : null,
-    shifts: shifts.map((s) => shiftForCaregiver(s, user.id, viewerRate)),
+    shifts: shifts.map((s) => shiftForCaregiverPreview(s, viewerRate)),
   });
 }
