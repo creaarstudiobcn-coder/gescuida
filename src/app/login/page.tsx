@@ -4,6 +4,7 @@ import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { useRecaptcha } from "@/components/useRecaptcha";
 
 function LoginForm() {
   const router = useRouter();
@@ -14,12 +15,14 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { execute } = useRecaptcha();
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    const res = await signIn("credentials", { email, password, redirect: false });
+    const recaptchaToken = await execute("login");
+    const res = await signIn("credentials", { email, password, recaptchaToken, redirect: false });
     setLoading(false);
     if (res?.error) {
       setError("Email o contraseña incorrectos.");

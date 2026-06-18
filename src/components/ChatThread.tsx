@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePolling } from "./usePolling";
+import { useRecaptcha } from "./useRecaptcha";
 import { fmtTime } from "@/lib/format";
 
 interface Msg {
@@ -24,16 +25,18 @@ export function ChatThread({ shiftId }: { shiftId: string }) {
   const [body, setBody] = useState("");
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState<SendError | null>(null);
+  const { execute } = useRecaptcha();
 
   async function send(e: React.FormEvent) {
     e.preventDefault();
     if (!body.trim()) return;
     setSending(true);
     setSendError(null);
+    const recaptchaToken = await execute("message");
     const res = await fetch("/api/messages", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ shiftId, body }),
+      body: JSON.stringify({ shiftId, body, recaptchaToken }),
     });
     setSending(false);
     if (res.ok) {

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { verifyRecaptcha } from "@/lib/recaptcha";
 
 const schema = z.object({
   name: z.string().min(2, "Indica tu nombre"),
@@ -13,6 +14,7 @@ const schema = z.object({
     errorMap: () => ({ message: "Debes aceptar el tratamiento de datos (RGPD)" }),
   }),
   zones: z.array(z.string()).optional(), // solo cuidadora
+  recaptchaToken: z.string().optional(),
 });
 
 export async function POST(req: Request) {
@@ -31,6 +33,15 @@ export async function POST(req: Request) {
     );
   }
   const { name, email, password, phone, role, zones } = parsed.data;
+
+  // Anti-bot: reCAPTCHA v3 (invisible). Si no está configurado, no bloquea.
+  const rc = await verifyRecaptcha(parsed.data.recaptchaToken, "register");
+  if (!rc.ok) {
+    return NextResponse.json(
+      { error: "No hemos podido verificar que no eres un robot. Inténtalo de nuevo." },
+      { status: 400 }
+    );
+  }
 
   const existing = await prisma.user.findUnique({ where: { email: email.toLowerCase() } });
   if (existing) {

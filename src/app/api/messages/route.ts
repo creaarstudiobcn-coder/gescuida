@@ -4,6 +4,7 @@ import { apiAuth } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { getAccessStatus } from "@/lib/access";
 import { canContactCaregiver } from "@/lib/contacts";
+import { verifyRecaptcha } from "@/lib/recaptcha";
 
 // Comprueba que el usuario participa en el turno (familia dueña o cuidadora asignada).
 async function canAccessShift(shiftId: string, userId: string, role: string) {
@@ -44,7 +45,11 @@ export async function GET(req: Request) {
   );
 }
 
-const sendSchema = z.object({ shiftId: z.string().min(1), body: z.string().min(1).max(1000) });
+const sendSchema = z.object({
+  shiftId: z.string().min(1),
+  body: z.string().min(1).max(1000),
+  recaptchaToken: z.string().optional(),
+});
 
 // POST /api/messages → enviar mensaje al otro participante del turno.
 export async function POST(req: Request) {
@@ -54,6 +59,12 @@ export async function POST(req: Request) {
   const parsed = sendSchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "Datos no válidos" }, { status: 400 });
   const { shiftId, body } = parsed.data;
+
+  // Anti-bot/spam: reCAPTCHA v3. Si no está configurado, no bloquea.
+  const rc = await verifyRecaptcha(parsed.data.recaptchaToken, "message");
+  if (!rc.ok) {
+    return NextResponse.json({ error: "Verificación de seguridad fallida. Inténtalo de nuevo." }, { status: 400 });
+  }
 
   const shift = await canAccessShift(shiftId, user.id, user.role);
   if (!shift) return NextResponse.json({ error: "Sin acceso a este turno" }, { status: 403 });

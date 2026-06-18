@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { MUNICIPIOS_MARESME, ACCESS_PLANS, formatEuros } from "@/lib/pricing";
+import { useRecaptcha } from "@/components/useRecaptcha";
 
 type Role = "FAMILIA" | "CUIDADORA";
 
@@ -22,6 +23,7 @@ function RegisterForm() {
   const [zones, setZones] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { execute } = useRecaptcha();
 
   function toggleZone(z: string) {
     setZones((prev) => (prev.includes(z) ? prev.filter((x) => x !== z) : [...prev, z]));
@@ -35,10 +37,11 @@ function RegisterForm() {
       return;
     }
     setLoading(true);
+    const recaptchaToken = await execute("register");
     const res = await fetch("/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, phone, password, role, consentRGPD: consent, zones }),
+      body: JSON.stringify({ name, email, phone, password, role, consentRGPD: consent, zones, recaptchaToken }),
     });
     const data = await res.json();
     if (!res.ok) {
