@@ -8,50 +8,65 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Verdes marinos / salvia (guiño a Mataró, ciudad de mar)
+        // ── Identidad de marca GesCuida ──
+        // Las escalas conservan sus nombres (marino/salvia/calido/crema) para no tocar
+        // las clases existentes, pero ahora mapean a los verdes de marca:
+        //  marino = verde profundo/tinta (títulos y texto)   #14533C / #14302A
+        //  calido = verde principal (acciones/CTA)            #2E9B72
+        //  salvia = verde hoja + menta (acentos y fondos)     #5BBE8E / #E2F1E8
+        //  crema  = crema cálida (fondos suaves)              #FAF7EF
         marino: {
-          50: "#eef5f4",
-          100: "#d4e6e3",
-          200: "#a9cdc7",
-          300: "#7bb0a8",
-          400: "#54928a",
-          500: "#3a7770",
-          600: "#2d5f59",
-          700: "#264c48",
-          800: "#1f3d3a",
-          900: "#1a3230",
+          50: "#eef6f2",
+          100: "#d6e9df",
+          200: "#aed5c4",
+          300: "#7fbaa0",
+          400: "#4f9880",
+          500: "#2f7a61",
+          600: "#226b50",
+          700: "#1a5b43",
+          800: "#14533c", // verde profundo (títulos)
+          900: "#14302a", // tinta oscura (texto)
         },
         salvia: {
-          50: "#f3f6f1",
-          100: "#e3ebdd",
-          200: "#c8d8bd",
-          300: "#a6bf95",
-          400: "#86a572",
-          500: "#6a8a57",
-          600: "#526d43",
-          700: "#415636",
-          800: "#36462e",
-          900: "#2e3b28",
+          50: "#e2f1e8", // menta suave
+          100: "#cdead7",
+          200: "#a6dabb",
+          300: "#79c79c",
+          400: "#5bbe8e", // verde hoja
+          500: "#45a878",
+          600: "#368661",
+          700: "#2b6c4e",
+          800: "#245742",
+          900: "#1e4838",
         },
         crema: {
-          50: "#fdfcf8",
-          100: "#faf6ec",
-          200: "#f4ecd6",
-          300: "#ecddb8",
-          400: "#e0c891",
+          50: "#faf7ef", // crema de marca
+          100: "#f4eee0",
+          200: "#ece1c9",
+          300: "#e2d3ad",
+          400: "#d4c08f",
         },
-        // Acento naranja cálido para acciones principales
+        // Acción principal / CTA — verde principal de marca
         calido: {
-          50: "#fff5ed",
-          100: "#ffe8d4",
-          200: "#fecca8",
-          300: "#fda871",
-          400: "#fb7c38",
-          500: "#f9591a",
-          600: "#ea3f0f",
-          700: "#c22e10",
-          800: "#9a2615",
-          900: "#7c2214",
+          50: "#e9f7f0",
+          100: "#caecdb",
+          200: "#9fddbd",
+          300: "#6fca9c",
+          400: "#45b482",
+          500: "#2e9b72", // verde principal (CTA)
+          600: "#25805e",
+          700: "#1f6749",
+          800: "#1a533c",
+          900: "#154030",
+        },
+        // Tokens de marca con nombre propio (por si se quieren usar explícitamente)
+        brand: {
+          deep: "#14533C",
+          green: "#2E9B72",
+          leaf: "#5BBE8E",
+          mint: "#E2F1E8",
+          cream: "#FAF7EF",
+          ink: "#14302A",
         },
       },
       fontFamily: {
