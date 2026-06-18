@@ -164,8 +164,8 @@ export default function PerfilPage() {
       )}
 
       {/* Municipios */}
-      <fieldset className="card space-y-3">
-        <legend className="label">Municipios donde trabajas</legend>
+      <div className="card space-y-3" role="group" aria-labelledby="grp-municipios">
+        <p id="grp-municipios" className="label">Municipios donde trabajas</p>
         <p className="text-sm text-marino-500">
           Selecciona todas las zonas en las que puedes dar servicio.
         </p>
@@ -192,7 +192,7 @@ export default function PerfilPage() {
         {zones.length === 0 && (
           <p className="text-sm text-calido-600">Elige al menos un municipio para recibir turnos.</p>
         )}
-      </fieldset>
+      </div>
 
       {/* Foto */}
       <div className="card space-y-2">
@@ -247,8 +247,8 @@ export default function PerfilPage() {
       </div>
 
       {/* Tarifa por hora — la fija libremente la cuidadora */}
-      <fieldset className="card space-y-4">
-        <legend className="label">Tu tarifa por hora</legend>
+      <div className="card space-y-4" role="group" aria-labelledby="grp-tarifa">
+        <p id="grp-tarifa" className="label">Tu tarifa por hora</p>
         <p className="text-sm text-marino-500">
           Tú decides tu precio. Indica un rango (desde / hasta) por hora. Es{" "}
           <span className="font-medium text-marino-700">opcional</span>: si lo dejas vacío, las
@@ -299,11 +299,11 @@ export default function PerfilPage() {
             no interviene en ese pago.
           </span>
         </div>
-      </fieldset>
+      </div>
 
       {/* Disponibilidad semanal */}
-      <fieldset className="card space-y-4">
-        <legend className="label">Disponibilidad semanal</legend>
+      <div className="card space-y-4" role="group" aria-labelledby="grp-disponibilidad">
+        <p id="grp-disponibilidad" className="label">Disponibilidad semanal</p>
         <p className="text-sm text-marino-500">
           Indica tus franjas por día, separadas por comas. Ejemplo:{" "}
           <span className="font-medium text-marino-700">09:00-14:00, 16:00-19:00</span>
@@ -328,7 +328,7 @@ export default function PerfilPage() {
             </div>
           ))}
         </div>
-      </fieldset>
+      </div>
 
       <button type="submit" disabled={saving} className="btn-primary w-full text-lg disabled:opacity-50">
         {saving ? "Guardando…" : "Guardar cambios"}
