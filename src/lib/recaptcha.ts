@@ -1,15 +1,19 @@
-// Verificación de reCAPTCHA v3 (invisible, basado en puntuación) en el servidor.
+// Verificación de reCAPTCHA v3 (invisible) en el servidor.
 //
-// Diseño pensado para NO molestar al usuario legítimo:
-//  - Si no hay clave secreta configurada → no bloquea (degradación elegante en local/dev
-//    y en el primer despliegue antes de poner las claves).
-//  - Si Google no responde (error de red) → no bloquea (fail-open): no penalizamos a un
-//    usuario legítimo por una caída puntual de Google.
-//  - Solo se bloquea cuando la verificación dice explícitamente que NO es válida o la
-//    puntuación está por debajo del umbral (probable bot).
+// FILOSOFÍA: NO impedir registros/acciones legítimas por problemas de CONFIGURACIÓN.
+//  - Sin clave secreta            → no bloquea (no configurado).
+//  - El cliente no envía token    → no bloquea (falta el site key en el cliente, etc.).
+//  - Google dice "no válido"      → no bloquea (clave/dominio mal configurados). Se registra.
+//  - Error de red con Google      → no bloquea (caída puntual).
+//  - Token VÁLIDO pero score bajo → solo bloquea si RECAPTCHA_ENFORCE === "true".
+//
+// Así, mientras se ajusta la configuración, reCAPTCHA funciona en "modo monitor"
+// (puntúa y deja rastro en los logs) sin cerrar la puerta a nadie. Cuando esté todo bien,
+// se pone RECAPTCHA_ENFORCE=true para que SÍ bloquee a los bots (score bajo).
 
 const VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 const MIN_SCORE = Number(process.env.RECAPTCHA_MIN_SCORE ?? "0.5");
+const ENFORCE = process.env.RECAPTCHA_ENFORCE === "true";
 
 export interface RecaptchaResult {
   ok: boolean;
@@ -23,7 +27,13 @@ export async function verifyRecaptcha(
 ): Promise<RecaptchaResult> {
   const secret = process.env.RECAPTCHA_SECRET_KEY;
   if (!secret) return { ok: true, reason: "not_configured" };
-  if (!token) return { ok: false, reason: "missing_token" };
+
+  if (!token) {
+    // El cliente no mandó token. Casi siempre: falta NEXT_PUBLIC_RECAPTCHA_SITE_KEY en el
+    // build (o no se ha redeployado). NO bloqueamos para no impedir registros legítimos.
+    console.warn("[recaptcha] sin token del cliente — ¿falta NEXT_PUBLIC_RECAPTCHA_SITE_KEY o redeploy? No se bloquea.");
+    return { ok: true, reason: "missing_token" };
+  }
 
   try {
     const res = await fetch(VERIFY_URL, {
@@ -39,14 +49,25 @@ export async function verifyRecaptcha(
       "error-codes"?: string[];
     };
 
-    if (!data.success) return { ok: false, reason: "verify_failed" };
-    if (expectedAction && data.action && data.action !== expectedAction) {
-      return { ok: false, reason: "action_mismatch" };
+    if (!data.success) {
+      // Problema de configuración (clave/dominio): NO bloqueamos; dejamos rastro.
+      console.warn(`[recaptcha] verificación NO válida (config). error-codes=${JSON.stringify(data["error-codes"] ?? [])}. No se bloquea.`);
+      return { ok: true, reason: "verify_failed" };
     }
-    if (typeof data.score === "number" && data.score < MIN_SCORE) {
-      return { ok: false, score: data.score, reason: "low_score" };
+
+    const score = data.score;
+    const actionMismatch = !!(expectedAction && data.action && data.action !== expectedAction);
+    const lowScore = typeof score === "number" && score < MIN_SCORE;
+
+    if (lowScore || actionMismatch) {
+      console.warn(
+        `[recaptcha] sospechoso: score=${score} action=${data.action} esperado=${expectedAction} enforce=${ENFORCE}`
+      );
+      // Token válido pero sospechoso (probable bot). Solo bloquea en modo enforce.
+      return { ok: !ENFORCE, score, reason: actionMismatch ? "action_mismatch" : "low_score" };
     }
-    return { ok: true, score: data.score };
+
+    return { ok: true, score };
   } catch {
     // Caída/timeout de Google: no bloqueamos al usuario legítimo.
     return { ok: true, reason: "verify_error" };
