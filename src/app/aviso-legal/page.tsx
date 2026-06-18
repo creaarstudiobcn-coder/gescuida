@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// Prerenderizado estático: el .md se lee en build, no en runtime (seguro en producción).
+export const dynamic = "force-static";
+
 export default function AvisoLegalPage() {
   return <LegalDraft file="aviso-legal.md" />;
 }
