@@ -43,11 +43,11 @@ export default function HomePage() {
             className="h-10 w-auto sm:h-12"
           />
         </Link>
-        <nav className="flex items-center gap-2">
-          <Link href="/login" className="btn-ghost">
+        <nav className="flex items-center gap-1.5 sm:gap-2">
+          <Link href="/login" className="btn-ghost px-3 text-sm sm:px-4 sm:text-base">
             Entrar
           </Link>
-          <Link href="/register" className="btn-primary">
+          <Link href="/register" className="btn-primary px-4 text-sm sm:px-5 sm:text-base">
             Empezar
           </Link>
         </nav>

@@ -23,8 +23,20 @@ export function LegalDraft({ file }: { file: string }) {
           No se ha podido cargar <code>legal/{file}</code>.
         </p>
       ) : (
-        <article className="legal-doc space-y-3 overflow-x-auto">
-          <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
+        <article className="legal-doc space-y-3">
+          <Markdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              // En móvil, SOLO la tabla scrollea en horizontal (no arrastra el texto).
+              table: (props) => (
+                <div className="overflow-x-auto">
+                  <table {...props} />
+                </div>
+              ),
+            }}
+          >
+            {content}
+          </Markdown>
         </article>
       )}
 
