@@ -38,9 +38,9 @@ export default function HomePage() {
           <img
             src="/brand/gescuida-logo-horizontal.svg"
             alt="GesCuida"
-            width={141}
-            height={40}
-            className="h-9 w-auto sm:h-10"
+            width={170}
+            height={48}
+            className="h-10 w-auto sm:h-12"
           />
         </Link>
         <nav className="flex items-center gap-2">
@@ -187,9 +187,9 @@ export default function HomePage() {
         <img
           src="/brand/gescuida-logo-horizontal-oscuro.svg"
           alt="GesCuida"
-          width={141}
-          height={40}
-          className="mx-auto h-9 w-auto"
+          width={160}
+          height={45}
+          className="mx-auto h-10 w-auto sm:h-11"
         />
         <p className="mt-3">Mataró i el Maresme</p>
         <nav className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">

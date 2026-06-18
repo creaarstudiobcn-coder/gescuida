@@ -36,9 +36,9 @@ function LoginForm() {
         <img
           src="/brand/gescuida-logo-horizontal.svg"
           alt="GesCuida"
-          width={141}
-          height={40}
-          className="h-10 w-auto"
+          width={170}
+          height={48}
+          className="h-11 w-auto sm:h-12"
         />
       </Link>
       <div className="card">

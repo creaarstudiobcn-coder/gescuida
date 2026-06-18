@@ -173,7 +173,7 @@ function SuscripcionContent() {
         <p className="font-bold text-marino-800">Importante: qué pagas con esta cuota</p>
         <p className="mt-2">
           La cuota mensual es por el <strong>uso de la plataforma de conexión</strong>, no por el
-          servicio de cuidado. Cuidado Mataró pone en contacto a familias y cuidadoras;{" "}
+          servicio de cuidado. GesCuida pone en contacto a familias y cuidadoras;{" "}
           <strong>no emplea a las cuidadoras ni presta el cuidado directamente</strong>.
         </p>
         <p className="mt-2">

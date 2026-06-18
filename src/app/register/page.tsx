@@ -55,8 +55,15 @@ function RegisterForm() {
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-5 py-10">
-      <Link href="/" className="mb-6 text-center text-xl font-extrabold text-marino-700">
-        🌊 Cuidado Mataró
+      <Link href="/" className="mb-6 flex justify-center" aria-label="GesCuida — inicio">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/brand/gescuida-logo-horizontal.svg"
+          alt="GesCuida"
+          width={170}
+          height={48}
+          className="h-11 w-auto sm:h-12"
+        />
       </Link>
       <div className="card">
         <h1 className="text-2xl font-bold text-marino-800">Crear cuenta</h1>

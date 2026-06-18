@@ -18,7 +18,14 @@ export function DashboardShell({
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
           <div>
             <p className="text-xs font-semibold text-salvia-600">{title}</p>
-            <p className="font-bold text-marino-800">🌊 Cuidado Mataró</p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/brand/gescuida-logo-horizontal.svg"
+              alt="GesCuida"
+              width={120}
+              height={34}
+              className="mt-0.5 h-7 w-auto"
+            />
           </div>
           <div className="flex items-center gap-2">
             <span className="hidden text-sm text-marino-500 sm:inline">{userName}</span>
