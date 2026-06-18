@@ -93,6 +93,8 @@ Utilizamos cookies y tecnologías similares:
 - **Cookies técnicas necesarias** para el funcionamiento de la Plataforma (por ejemplo, mantener la sesión iniciada). No requieren consentimiento.
 - **Cookies analíticas**, para medir y mejorar el uso del sitio. Solo se instalan **con tu consentimiento**, que prestas o rechazas a través del aviso de cookies y puedes modificar en cualquier momento.
 
+Consulta el detalle de las cookies en nuestra [Política de Cookies](/cookies).
+
 ## 14. Cambios en esta Política
 
 Podremos actualizar esta Política. Publicaremos la versión vigente con su fecha e informaremos de cambios sustanciales por los medios habituales.

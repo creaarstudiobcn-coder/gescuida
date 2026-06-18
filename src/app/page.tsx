@@ -199,6 +199,9 @@ export default function HomePage() {
           <Link href="/privacidad" className="underline hover:text-white">
             Política de Privacidad
           </Link>
+          <Link href="/cookies" className="underline hover:text-white">
+            Cookies
+          </Link>
           <Link href="/aviso-legal" className="underline hover:text-white">
             Aviso Legal
           </Link>
