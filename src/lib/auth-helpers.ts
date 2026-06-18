@@ -25,7 +25,7 @@ export function homeForRole(role?: Role) {
     case "CUIDADORA":
       return "/cuidadora";
     case "ADMIN":
-      return "/admin";
+      return "/gestion-9k2p7";
     default:
       return "/login";
   }

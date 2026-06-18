@@ -4,8 +4,8 @@ import type { MetadataRoute } from "next";
 const BASE = "https://gescuida.es";
 
 // Solo páginas PÚBLICAS e indexables. NO se incluyen los paneles privados
-// (/familia, /cuidadora, /admin) ni la API. Las páginas legales, ya publicadas
-// (sin noindex), sí se incluyen con prioridad baja.
+// (familia, cuidadora ni el panel de administración) ni la API. Las páginas legales,
+// ya publicadas (sin noindex), sí se incluyen con prioridad baja.
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
   return [

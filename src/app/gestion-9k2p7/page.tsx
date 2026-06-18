@@ -205,12 +205,12 @@ function SummarySection({ data }: { data: OverviewData }) {
   return (
     <section className="space-y-3">
       <div className="grid grid-cols-2 gap-3">
-        <Link href="/admin/turnos" className="card transition hover:border-calido-300">
+        <Link href="/gestion-9k2p7/turnos" className="card transition hover:border-calido-300">
           <p className="text-sm font-semibold text-marino-500">Buscando cuidadora</p>
           <p className="mt-1 text-2xl font-extrabold text-calido-600">{data.pending.length}</p>
           <p className="text-xs text-marino-400">pendientes</p>
         </Link>
-        <Link href="/admin/turnos" className="card transition hover:border-salvia-300">
+        <Link href="/gestion-9k2p7/turnos" className="card transition hover:border-salvia-300">
           <p className="text-sm font-semibold text-marino-500">Confirmados</p>
           <p className="mt-1 text-2xl font-extrabold text-salvia-600">{data.confirmed.length}</p>
           <p className="text-xs text-marino-400">con cuidadora</p>
@@ -219,7 +219,7 @@ function SummarySection({ data }: { data: OverviewData }) {
 
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-marino-800">Próximos confirmados</h2>
-        <Link href="/admin/turnos" className="text-sm font-semibold text-calido-600">
+        <Link href="/gestion-9k2p7/turnos" className="text-sm font-semibold text-calido-600">
           Ver tablero
         </Link>
       </div>

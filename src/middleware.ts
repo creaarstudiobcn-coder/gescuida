@@ -8,13 +8,13 @@ const { auth } = NextAuth(authConfig);
 const ROLE_AREAS: { prefix: string; role: "FAMILIA" | "CUIDADORA" | "ADMIN" }[] = [
   { prefix: "/familia", role: "FAMILIA" },
   { prefix: "/cuidadora", role: "CUIDADORA" },
-  { prefix: "/admin", role: "ADMIN" },
+  { prefix: "/gestion-9k2p7", role: "ADMIN" }, // panel de administración (ruta no obvia)
 ];
 
 function homeForRole(role?: string) {
   if (role === "FAMILIA") return "/familia";
   if (role === "CUIDADORA") return "/cuidadora";
-  if (role === "ADMIN") return "/admin";
+  if (role === "ADMIN") return "/gestion-9k2p7";
   return "/login";
 }
 
@@ -44,5 +44,5 @@ export default auth((req) => {
 
 export const config = {
   // Protege las áreas de cada rol (excluye estáticos y API de auth).
-  matcher: ["/familia/:path*", "/cuidadora/:path*", "/admin/:path*"],
+  matcher: ["/familia/:path*", "/cuidadora/:path*", "/gestion-9k2p7/:path*"],
 };

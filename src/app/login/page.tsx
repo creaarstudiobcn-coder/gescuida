@@ -31,8 +31,15 @@ function LoginForm() {
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-5 py-10">
-      <Link href="/" className="mb-6 text-center text-xl font-extrabold text-marino-700">
-        🌊 Cuidado Mataró
+      <Link href="/" className="mb-6 flex justify-center" aria-label="GesCuida — inicio">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/brand/gescuida-logo-horizontal.svg"
+          alt="GesCuida"
+          width={141}
+          height={40}
+          className="h-10 w-auto"
+        />
       </Link>
       <div className="card">
         <h1 className="text-2xl font-bold text-marino-800">Entrar</h1>
@@ -85,15 +92,6 @@ function LoginForm() {
             Regístrate
           </Link>
         </p>
-      </div>
-
-      <div className="mt-6 rounded-xl bg-marino-50 p-4 text-sm text-marino-600">
-        <p className="font-semibold">Cuentas de demostración:</p>
-        <ul className="mt-1 space-y-0.5">
-          <li>Familia: familia@demo.es / familia1234</li>
-          <li>Cuidadora: cuidadora@demo.es / cuidadora1234</li>
-          <li>Admin: admin@cuidadomataro.es / admin1234</li>
-        </ul>
       </div>
     </main>
   );
