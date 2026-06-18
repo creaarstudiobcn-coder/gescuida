@@ -247,7 +247,7 @@ export default function PerfilPage() {
       </div>
 
       {/* Tarifa por hora — la fija libremente la cuidadora */}
-      <fieldset className="card space-y-3">
+      <fieldset className="card space-y-4">
         <legend className="label">Tu tarifa por hora</legend>
         <p className="text-sm text-marino-500">
           Tú decides tu precio. Indica un rango (desde / hasta) por hora. Es{" "}
@@ -256,7 +256,7 @@ export default function PerfilPage() {
           plataforma no fija ninguna tarifa.
         </p>
         <div className="grid grid-cols-2 gap-3">
-          <div>
+          <div className="min-w-0">
             <label htmlFor="rateMin" className="label">
               Desde (€/h)
             </label>
@@ -266,13 +266,13 @@ export default function PerfilPage() {
               min={0}
               step="0.5"
               inputMode="decimal"
-              className="input"
+              className="input no-spin"
               placeholder="p. ej. 12"
               value={rateMin}
               onChange={(e) => setRateMin(e.target.value)}
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <label htmlFor="rateMax" className="label">
               Hasta (€/h)
             </label>
@@ -282,36 +282,45 @@ export default function PerfilPage() {
               min={0}
               step="0.5"
               inputMode="decimal"
-              className="input"
+              className="input no-spin"
               placeholder="p. ej. 16"
               value={rateMax}
               onChange={(e) => setRateMax(e.target.value)}
             />
           </div>
         </div>
-        <p className="rounded-xl bg-marino-50 px-3 py-2 text-xs text-marino-600">
-          💶 El importe del cuidado lo acuerdas y cobras <strong>directamente de la familia</strong>.
-          La plataforma no interviene en ese pago.
-        </p>
+        <div className="flex items-start gap-2 rounded-xl bg-marino-50 px-3 py-2.5 text-xs text-marino-600">
+          <span aria-hidden className="mt-px shrink-0 text-sm leading-none">
+            💶
+          </span>
+          <span>
+            El importe del cuidado lo acuerdas y cobras{" "}
+            <strong className="text-marino-700">directamente de la familia</strong>. La plataforma
+            no interviene en ese pago.
+          </span>
+        </div>
       </fieldset>
 
       {/* Disponibilidad semanal */}
-      <fieldset className="card space-y-3">
+      <fieldset className="card space-y-4">
         <legend className="label">Disponibilidad semanal</legend>
         <p className="text-sm text-marino-500">
           Indica tus franjas por día, separadas por comas. Ejemplo:{" "}
           <span className="font-medium text-marino-700">09:00-14:00, 16:00-19:00</span>
         </p>
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {DAYS.map((d) => (
             <div key={d.key} className="flex items-center gap-3">
-              <label htmlFor={`av-${d.key}`} className="w-24 shrink-0 text-sm font-semibold text-marino-600">
+              <label
+                htmlFor={`av-${d.key}`}
+                className="w-24 shrink-0 text-sm font-semibold text-marino-700"
+              >
                 {d.label}
               </label>
               <input
                 id={`av-${d.key}`}
                 type="text"
-                className="input flex-1 py-2"
+                className="input min-w-0 flex-1 py-2.5"
                 placeholder="Sin disponibilidad"
                 value={dayText[d.key] ?? ""}
                 onChange={(e) => setDayText((prev) => ({ ...prev, [d.key]: e.target.value }))}
