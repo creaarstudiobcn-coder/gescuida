@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 
 // Cliente de Stripe (servidor). Si no hay clave, las rutas de pago devolverán error claro.
-const key = process.env.STRIPE_SECRET_KEY;
+const key = process.env.STRIPE_SECRET_KEY?.trim();
 
 export const stripe = key
   ? new Stripe(key, { apiVersion: "2025-02-24.acacia" })

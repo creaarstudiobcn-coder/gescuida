@@ -120,7 +120,9 @@ async function syncSubscription(sub: Stripe.Subscription) {
 
 export async function POST(req: Request) {
   const stripe = assertStripe();
-  const whSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  // .trim() defensivo: evita el error "signing secret contains whitespace" si la variable
+  // de entorno se pegó con un espacio o salto de línea invisible.
+  const whSecret = process.env.STRIPE_WEBHOOK_SECRET?.trim();
   if (!whSecret) {
     return NextResponse.json({ error: "Falta STRIPE_WEBHOOK_SECRET" }, { status: 500 });
   }
