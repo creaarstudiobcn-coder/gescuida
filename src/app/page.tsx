@@ -160,9 +160,18 @@ export default function HomePage() {
       </section>
 
       <footer className="mt-16 border-t border-marino-100 pt-6 text-center text-sm text-marino-500">
-        <p>Cuidado Mataró · Mataró i el Maresme</p>
-        {/* Enlaces legales pendientes: se añadirán (/terminos, /privacidad, /aviso-legal)
-            cuando los textos estén validados por el abogado. */}
+        <p>GesCuida · Mataró i el Maresme</p>
+        <nav className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+          <Link href="/terminos" className="underline hover:text-marino-700">
+            Términos y Condiciones
+          </Link>
+          <Link href="/privacidad" className="underline hover:text-marino-700">
+            Política de Privacidad
+          </Link>
+          <Link href="/aviso-legal" className="underline hover:text-marino-700">
+            Aviso Legal
+          </Link>
+        </nav>
       </footer>
     </main>
   );

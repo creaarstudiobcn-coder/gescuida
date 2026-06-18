@@ -1,15 +1,7 @@
-> ## ⚠️ BORRADOR — NO PUBLICAR SIN REVISIÓN LEGAL
->
-> Este documento es un **BORRADOR generado automáticamente** como punto de partida.
-> **Debe ser revisado, completado y validado por un abogado/a colegiado/a** antes de su
-> publicación o de surtir efectos. Ni este texto ni quien lo ha generado constituyen
-> asesoramiento jurídico. Los apartados marcados con `[CORCHETES]` deben completarse y los
-> recuadros **🔎 NOTA PARA EL ABOGADO/A** señalan cláusulas que requieren validación profesional.
-
 # Términos y Condiciones de Uso de la Plataforma GesCuida
 
-**Última actualización:** [FECHA]
-**Versión:** [Nº DE VERSIÓN]
+**Última actualización:** 18 de junio de 2026
+**Versión:** 1.0
 
 ---
 
@@ -21,8 +13,8 @@ La plataforma **GesCuida** (en adelante, la «Plataforma») es titularidad de:
 - **NIF:** B26786962
 - **Domicilio social:** Bailèn de les Espenyes, 6, 1.º, 08301 Mataró (Barcelona), España.
 - **Correo electrónico de contacto:** info@dependalium.com
-- **Datos registrales:** [DATOS DE INSCRIPCIÓN EN EL REGISTRO MERCANTIL DE BARCELONA — tomo, folio, hoja, inscripción]
-- **Sitio web / aplicación:** [URL DE LA PLATAFORMA]
+- **Datos registrales:** Sociedad inscrita en el Registro Mercantil de Barcelona, Tomo 100046, Folio 219, Hoja B-561219, Inscripción 1.ª.
+- **Sitio web / aplicación:** https://gescuida.es
 
 ## 2. Objeto y naturaleza de la Plataforma
 
@@ -72,18 +64,6 @@ La plataforma **GesCuida** (en adelante, la «Plataforma») es titularidad de:
 
 6.3. La Cuidadora es la única responsable del cumplimiento de sus obligaciones fiscales, de Seguridad Social (alta en el RETA cuando proceda), de facturación y de cualesquiera autorizaciones o titulaciones exigibles para el ejercicio de su actividad.
 
-> **🔎 NOTA PARA EL ABOGADO/A (régimen laboral — riesgo de «falso autónomo»):**
-> En plataformas de cuidados existe un **riesgo relevante de recalificación de la relación
-> como laboral** (indicios de ajenidad y dependencia; doctrina del TS sobre plataformas
-> digitales; «Ley Rider» y su lógica; actuación de la Inspección de Trabajo). Conviene revisar
-> que **el funcionamiento real** de la Plataforma sea coherente con la independencia que aquí se
-> declara, en especial: (i) que la **fijación del precio** la haga efectivamente la Cuidadora y
-> no la Empresa; (ii) que **no haya sistemas de puntuación/penalización** que limiten de facto la
-> libertad de rechazar; (iii) que la Empresa **no organice ni controle** la prestación; (iv) la
-> gestión de sustituciones; y (v) la comunicación pública (marketing) coherente con la
-> intermediación. Valorar la conveniencia de **contrato de adhesión específico** con las
-> Cuidadoras y de cláusulas de indemnidad.
-
 ## 7. Funcionamiento de la Plataforma
 
 7.1. La Familia publica solicitudes de cuidado (turnos) indicando los datos necesarios para su coordinación. Las Cuidadoras de la zona pueden ver dichas solicitudes (con información limitada, ver Política de Privacidad) y aceptarlas o rechazarlas libremente.
@@ -95,8 +75,8 @@ La plataforma **GesCuida** (en adelante, la «Plataforma») es titularidad de:
 ## 8. Modelo económico
 
 8.1. **Cuota de acceso (Familias).** La Familia abona a la Empresa una **cuota de acceso mensual** por el uso de la Plataforma, según los planes vigentes en cada momento:
-- **Plan Básico:** 29,99 €/mes [IVA: INDICAR SI INCLUIDO O EXCLUIDO], que permite contactar con un número limitado de Cuidadoras al mes.
-- **Plan Completo:** 69 €/mes [IVA: INDICAR SI INCLUIDO O EXCLUIDO], con un límite superior de contactos.
+- **Plan Básico:** 29,99 €/mes (IVA incluido), que permite contactar con un número limitado de Cuidadoras al mes.
+- **Plan Completo:** 69 €/mes (IVA incluido), con un límite superior de contactos.
 
 Los límites de contactos vigentes se indican en la Plataforma. La cuota se renueva por periodos mensuales mediante suscripción.
 
@@ -104,7 +84,7 @@ Los límites de contactos vigentes se indican en la Plataforma. La cuota se renu
 
 8.3. **Precio del cuidado.** El precio del servicio de cuidado **lo fija libremente cada Cuidadora** y se **acuerda y abona directamente entre la Familia y la Cuidadora**. **La Empresa NO cobra, NO gestiona, NO retiene NI interviene** en dicho pago, que es completamente ajeno a la Plataforma.
 
-8.4. **Pasarela de pago.** El cobro de la cuota de acceso se realiza a través de un **proveedor de pago externo** ([STRIPE / PROVEEDOR]), que actúa como encargado del tratamiento respecto de los datos necesarios para procesar el pago. La Empresa no almacena los datos completos de la tarjeta.
+8.4. **Pasarela de pago.** El cobro de la cuota de acceso se realiza a través del proveedor de pago externo **Stripe** (Stripe Payments Europe, Ltd.), que actúa como encargado del tratamiento respecto de los datos necesarios para procesar el pago. La Empresa no almacena los datos completos de la tarjeta.
 
 8.5. **Cambios de plan.** La Familia puede cambiar de plan desde su panel. El cambio surte efecto conforme a lo indicado en la Plataforma y en las condiciones de la suscripción.
 
@@ -118,7 +98,7 @@ La Familia se obliga a: (i) usar la Plataforma conforme a la ley y a estos Térm
 
 ## 11. Obligaciones de las Cuidadoras
 
-La Cuidadora se obliga a: (i) actuar como profesional independiente y cumplir sus obligaciones fiscales y de Seguridad Social; (ii) disponer de la formación y, en su caso, titulación y autorizaciones exigibles; (iii) tratar con confidencialidad los datos a los que acceda y usarlos solo para prestar el servicio; (iv) prestar el servicio con diligencia profesional; y (v) no eludir la Plataforma de forma fraudulenta cuando los Términos así lo prevean [REVISAR cláusula de no elusión].
+La Cuidadora se obliga a: (i) actuar como profesional independiente y cumplir sus obligaciones fiscales y de Seguridad Social; (ii) disponer de la formación y, en su caso, titulación y autorizaciones exigibles; (iii) tratar con confidencialidad los datos a los que acceda y usarlos solo para prestar el servicio; (iv) prestar el servicio con diligencia profesional; y (v) no eludir la Plataforma de forma fraudulenta.
 
 ## 12. Exención y limitación de responsabilidad
 
@@ -130,18 +110,7 @@ La Cuidadora se obliga a: (i) actuar como profesional independiente y cumplir su
 
 (c) **Disponibilidad técnica.** La Empresa no garantiza la disponibilidad ininterrumpida de la Plataforma ni la ausencia de errores, sin perjuicio de su diligencia para mantener el servicio.
 
-12.2. La Empresa **sí responde** de las obligaciones que le son propias como prestador del servicio de intermediación y de la cuota de acceso, conforme a la legislación aplicable.
-
-> **🔎 NOTA PARA EL ABOGADO/A (exención de responsabilidad y consumidores):**
-> Las exenciones anteriores **NO pueden oponerse frente a personas consumidoras de forma que
-> resulten abusivas** (arts. 82 y ss. del Texto Refundido de la Ley General para la Defensa de
-> Consumidores y Usuarios, TRLGDCU). Es **imprescindible** matizar estas cláusulas para dejar a
-> salvo los **derechos imperativos del consumidor** y la responsabilidad que la ley atribuya
-> inderogablemente a la Empresa, evitando exoneraciones generales o desproporcionadas
-> (especialmente por daños a la vida/salud o por dolo o culpa grave). Revisar además el posible
-> deber de diligencia/garantía derivado de la **verificación** de Cuidadoras y de la confianza
-> generada en el consumidor, así como límites de responsabilidad cuantitativos. Adaptar la
-> redacción para que sea **robusta pero válida** frente a consumidores.
+12.2. Las exclusiones anteriores **no resultan de aplicación** cuando la legislación imperativa lo impida y, en particular, **no limitan ni excluyen los derechos que la normativa de consumidores y usuarios reconoce de forma imperativa** a las personas consumidoras, ni la responsabilidad de la Empresa por dolo o culpa grave o por daños a la vida o la salud que le sean legalmente imputables. La Empresa **sí responde** de las obligaciones que le son propias como prestador del servicio de intermediación y de la cuota de acceso, conforme a la legislación aplicable.
 
 ## 13. Propiedad intelectual e industrial
 
@@ -153,36 +122,23 @@ El tratamiento de datos personales se rige por la **Política de Privacidad** de
 
 ## 15. Suspensión y baja
 
-15.1. El Usuario puede darse de baja y cancelar su suscripción en cualquier momento desde su panel o solicitándolo a info@dependalium.com. La cancelación surte efecto al final del periodo de facturación en curso [CONFIRMAR política de cancelación y reembolsos].
+15.1. El Usuario puede darse de baja y cancelar su suscripción en cualquier momento desde su panel o solicitándolo a info@dependalium.com. La cancelación surte efecto al final del periodo de facturación en curso; no procede la devolución de la parte ya disfrutada de dicho periodo, sin perjuicio del derecho de desistimiento (cláusula 16.2) y de los derechos imperativos de los consumidores.
 
 15.2. La Empresa podrá suspender o cancelar cuentas que incumplan estos Términos o la ley, de forma proporcionada y, siempre que sea posible, previo aviso.
 
 ## 16. Duración, modificaciones y derecho de desistimiento
 
-16.1. Estos Términos están vigentes mientras el Usuario use la Plataforma. La Empresa podrá modificarlos por motivos legales u operativos, informando con antelación razonable; el uso posterior implica su aceptación [REVISAR mecanismo de aceptación de cambios para consumidores].
+16.1. Estos Términos están vigentes mientras el Usuario use la Plataforma. La Empresa podrá modificarlos por motivos legales u operativos, informando con antelación razonable a través de la Plataforma; el uso posterior de la Plataforma implica la aceptación de los Términos vigentes.
 
-16.2. **Derecho de desistimiento.** [COMPLETAR régimen de desistimiento para la cuota de acceso contratada a distancia.]
-
-> **🔎 NOTA PARA EL ABOGADO/A (derecho de desistimiento):**
-> Tratándose de un servicio digital contratado a distancia por consumidores, debe regularse el
-> **derecho de desistimiento de 14 días** (arts. 102 y ss. TRLGDCU), sus excepciones (p. ej.,
-> contenidos/servicios digitales ya ejecutados con consentimiento expreso y renuncia informada),
-> el **modelo de formulario de desistimiento** y la información precontractual obligatoria.
-> Definir el efecto sobre la suscripción ya iniciada y los reembolsos.
+16.2. **Derecho de desistimiento.** Si el Usuario tiene la condición de **persona consumidora**, dispone de un plazo de **14 días naturales** desde la contratación de la cuota de acceso para desistir, sin necesidad de justificación, comunicándolo a **info@dependalium.com** (puede usar el modelo legal de formulario de desistimiento). **No obstante**, al tratarse de un servicio digital, si el Usuario solicita y consiente expresamente el **inicio inmediato** del servicio y **comienza a utilizar la Plataforma** dentro de dicho plazo, **pierde el derecho de desistimiento** una vez que el servicio ha sido prestado, conforme al artículo 103.m) del TRLGDCU, reconociendo el Usuario haber sido informado de esta pérdida.
 
 ## 17. Ley aplicable y resolución de conflictos
 
 17.1. Estos Términos se rigen por la **legislación española**.
 
-17.2. [FUERO / JURISDICCIÓN COMPETENTE.] Para personas consumidoras será de aplicación el fuero imperativo que la ley les reconozca.
+17.2. Para la resolución de cualquier controversia, las partes se someten a los **Juzgados y Tribunales de Mataró**. Cuando el Usuario tenga la condición de persona consumidora, será de aplicación el **fuero imperativo que la ley le reconozca** (con carácter general, el de su domicilio).
 
-17.3. Resolución alternativa de litigios: la Comisión Europea ofrece una plataforma de resolución de litigios en línea: https://ec.europa.eu/consumers/odr [CONFIRMAR adhesión a entidad de resolución alternativa, si procede].
-
-> **🔎 NOTA PARA EL ABOGADO/A (fuero y jurisdicción):**
-> No puede imponerse a la persona consumidora un fuero distinto al de su domicilio (sumisión
-> expresa nula frente a consumidores, art. 90.2 TRLGDCU). Ajustar la cláusula 17.2 en
-> consecuencia y revisar la información sobre resolución alternativa de litigios (Reglamento
-> (UE) 524/2013) y posibles obligaciones de adhesión a un sistema de RAL.
+17.3. **Resolución alternativa de litigios.** La Empresa no se encuentra adherida a ninguna entidad de resolución alternativa de litigios. No obstante, conforme al Reglamento (UE) 524/2013, se informa de que la Comisión Europea pone a disposición de los consumidores una plataforma de resolución de litigios en línea, accesible en: https://ec.europa.eu/consumers/odr
 
 ## 18. Contacto
 

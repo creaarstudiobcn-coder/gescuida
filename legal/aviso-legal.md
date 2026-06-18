@@ -1,14 +1,6 @@
-> ## ⚠️ BORRADOR — NO PUBLICAR SIN REVISIÓN LEGAL
->
-> Este documento es un **BORRADOR generado automáticamente** como punto de partida.
-> **Debe ser revisado, completado y validado por un abogado/a colegiado/a** antes de su
-> publicación. Ni este texto ni quien lo ha generado constituyen asesoramiento jurídico.
-> Los `[CORCHETES]` deben completarse y los recuadros **🔎 NOTA PARA EL ABOGADO/A** señalan
-> cláusulas que requieren validación profesional.
-
 # Aviso Legal
 
-**Última actualización:** [FECHA]
+**Última actualización:** 18 de junio de 2026
 
 En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (**LSSI-CE**), se ponen a disposición de los usuarios los siguientes datos identificativos del titular de la plataforma **GesCuida**.
 
@@ -21,9 +13,8 @@ En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios
 - **NIF:** B26786962
 - **Domicilio social:** Bailèn de les Espenyes, 6, 1.º, 08301 Mataró (Barcelona), España.
 - **Correo electrónico:** info@dependalium.com
-- **Datos registrales:** Inscrita en el **Registro Mercantil de Barcelona**, [TOMO], [FOLIO], [HOJA], [INSCRIPCIÓN]. [COMPLETAR]
-- **Sitio web / aplicación:** [URL DE LA PLATAFORMA]
-- [Si se ejerce actividad sujeta a autorización o colegiación específica, INDICARLO. CONFIRMAR si procede.]
+- **Datos registrales:** Sociedad inscrita en el **Registro Mercantil de Barcelona**, Tomo 100046, Folio 219, Hoja B-561219, Inscripción 1.ª.
+- **Sitio web / aplicación:** https://gescuida.es
 
 ## 2. Objeto
 
@@ -45,16 +36,9 @@ Los contenidos de la Plataforma (textos, diseños, logotipos, software, bases de
 
 6.1. La Empresa actúa como **prestador de servicios de intermediación** de la sociedad de la información. De conformidad con los artículos 13 a 17 de la LSSI-CE, la Empresa **no es responsable de los contenidos, acuerdos, comunicaciones ni actuaciones** de los usuarios (Familias y Cuidadoras), ni de las relaciones que estos establezcan entre sí, salvo en los términos y con los límites que establezca la legislación aplicable.
 
-6.2. En particular, la Empresa **no responde del servicio de cuidado** prestado por las Cuidadoras, ni de los pagos, conflictos o reclamaciones entre Familia y Cuidadora, conforme a lo previsto en los **Términos y Condiciones** (cláusula de exención y limitación de responsabilidad).
+6.2. En particular, la Empresa **no responde del servicio de cuidado** prestado por las Cuidadoras, ni de los pagos, conflictos o reclamaciones entre Familia y Cuidadora, conforme a lo previsto en los **Términos y Condiciones** (cláusula de exención y limitación de responsabilidad). Lo anterior se entiende sin perjuicio de los derechos que la legislación de consumidores reconoce de forma imperativa a las personas consumidoras.
 
 6.3. **Enlaces.** La Plataforma puede contener enlaces a sitios de terceros; la Empresa no se responsabiliza de sus contenidos.
-
-> **🔎 NOTA PARA EL ABOGADO/A (exención y consumidores):**
-> La exclusión de responsabilidad debe coordinarse con la cláusula 12 de los Términos y respetar
-> los **derechos imperativos de los consumidores** (TRLGDCU): no puede ser abusiva ni exonerar de
-> forma general, en especial respecto de daños a la salud o por dolo/culpa grave. Revisar también
-> el alcance del régimen de exención de los prestadores de intermediación de la LSSI-CE y su
-> compatibilidad con el deber de diligencia derivado de la verificación de Cuidadoras.
 
 ## 7. Protección de datos
 
@@ -62,11 +46,7 @@ El tratamiento de datos personales se rige por la **Política de Privacidad** de
 
 ## 8. Legislación aplicable y jurisdicción
 
-Este Aviso Legal se rige por la **legislación española**. [INDICAR JURISDICCIÓN COMPETENTE, dejando a salvo el fuero imperativo de las personas consumidoras.]
-
-> **🔎 NOTA PARA EL ABOGADO/A (jurisdicción):**
-> Frente a personas consumidoras no cabe imponer un fuero distinto al de su domicilio (art. 90.2
-> TRLGDCU). Ajustar en coherencia con la cláusula 17 de los Términos y Condiciones.
+Este Aviso Legal se rige por la **legislación española**. Para la resolución de cualquier controversia, las partes se someten a los **Juzgados y Tribunales de Mataró**, salvo que la otra parte tenga la condición de persona consumidora, en cuyo caso será competente el fuero que legalmente le corresponda (con carácter general, el de su domicilio).
 
 ## 9. Contacto
 

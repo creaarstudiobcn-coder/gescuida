@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { LegalDraft } from "@/components/LegalDraft";
 
-// BORRADOR pendiente de validación legal — no enlazado, no indexable (review-only).
 export const metadata: Metadata = {
-  title: "[BORRADOR] Términos y Condiciones — GesCuida",
-  robots: { index: false, follow: false },
+  title: "Términos y Condiciones — GesCuida",
+  description: "Términos y condiciones de uso de la plataforma de intermediación GesCuida.",
 };
 
 // Prerenderizado estático: el .md se lee en build, no en runtime (seguro en producción).

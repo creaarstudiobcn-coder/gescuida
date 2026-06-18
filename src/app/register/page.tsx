@@ -162,10 +162,16 @@ function RegisterForm() {
               className="mt-1 h-5 w-5 accent-calido-500"
             />
             <span className="text-sm text-marino-700">
-              Acepto el tratamiento de mis datos y, en su caso, de los datos de salud de la
-              persona a cuidar, conforme al aviso de privacidad. (RGPD)
-              {/* El enlace al aviso de privacidad se añadirá cuando el texto esté validado
-                  por el abogado (borrador en /privacidad, aún no publicado). */}
+              Acepto los{" "}
+              <Link href="/terminos" className="underline" target="_blank">
+                Términos y Condiciones
+              </Link>{" "}
+              y la{" "}
+              <Link href="/privacidad" className="underline" target="_blank">
+                Política de Privacidad
+              </Link>
+              , incluido el tratamiento de mis datos y, en su caso, de los datos de salud de la
+              persona a cuidar (RGPD).
             </span>
           </label>
 

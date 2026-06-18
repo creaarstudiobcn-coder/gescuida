@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { LegalDraft } from "@/components/LegalDraft";
 
-// BORRADOR pendiente de validación legal — no enlazado, no indexable (review-only).
 export const metadata: Metadata = {
-  title: "[BORRADOR] Aviso Legal — GesCuida",
-  robots: { index: false, follow: false },
+  title: "Aviso Legal — GesCuida",
+  description: "Aviso legal e información del titular de la plataforma GesCuida (LSSI-CE).",
 };
 
 // Prerenderizado estático: el .md se lee en build, no en runtime (seguro en producción).
