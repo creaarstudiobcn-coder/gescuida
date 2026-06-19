@@ -79,7 +79,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (account?.provider !== "google") return true;
 
       const email = (profile?.email ?? user?.email)?.toLowerCase();
-      console.log("[auth] Google signIn", { email, email_verified: profile?.email_verified });
 
       if (!email) {
         console.error("[auth] Google signIn denegado: el profile no trae email");
@@ -98,7 +97,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const existing = await prisma.user.findUnique({ where: { email } });
         if (existing) {
           // Ya existe → iniciar sesión sin tocar su rol.
-          console.log("[auth] Google: usuario existente, login (rol", existing.role + ")");
           return true;
         }
 
@@ -118,7 +116,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               : {}),
           },
         });
-        console.log("[auth] Google: usuario nuevo creado con rol", role);
         return true;
       } catch (err) {
         // Si Prisma falla aquí, Auth.js lo mostraría como "AccessDenied" sin
