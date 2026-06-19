@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ACCESS_PLANS, formatEuros } from "@/lib/pricing";
 import { ZonasLinks } from "@/components/ZonasLinks";
+import { CuidadorasProceso } from "@/components/CuidadorasProceso";
 
 const PASOS = [
   {
@@ -165,22 +166,8 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* Cuidadoras */}
-      <section className="mt-16">
-        <div className="rounded-2xl bg-marino-800 px-6 py-8 text-center text-white">
-          <h2 className="text-2xl font-bold">¿Eres cuidadora?</h2>
-          <p className="mx-auto mt-2 max-w-xl text-salvia-50">
-            Regístrate gratis y recibe solicitudes de familias de tu zona. Tú fijas tu tarifa y
-            decides qué turnos aceptas.
-          </p>
-          <Link
-            href="/register?role=CUIDADORA"
-            className="btn-primary mt-5 bg-white text-marino-800 hover:bg-salvia-50"
-          >
-            Regístrate gratis
-          </Link>
-        </div>
-      </section>
+      {/* Cuidadoras — proceso de conexión animado */}
+      <CuidadorasProceso />
 
       {/* Zonas donde operamos (SEO local + enlaces internos) */}
       <ZonasLinks />
