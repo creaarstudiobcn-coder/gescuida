@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { usePolling } from "@/components/usePolling";
 import { Loading, ErrorCard, EmptyCard } from "../_components/ui";
 import type { CaregiverAdmin } from "../_components/types";
@@ -100,7 +101,12 @@ function CaregiverCard({
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="font-bold text-marino-800">{c.name}</p>
+          <Link
+            href={`/gestion-9k2p7/cuidadoras/${c.id}`}
+            className="font-bold text-marino-800 hover:text-calido-700 hover:underline"
+          >
+            {c.name}
+          </Link>
           <p className="truncate text-sm text-marino-500">{c.email}</p>
           {c.phone && <p className="text-sm text-marino-500">📞 {c.phone}</p>}
         </div>
@@ -124,6 +130,12 @@ function CaregiverCard({
       </div>
 
       <div className="mt-3 flex flex-wrap gap-2">
+        <Link
+          href={`/gestion-9k2p7/cuidadoras/${c.id}`}
+          className="btn-secondary px-4 py-2 text-sm"
+        >
+          Ver ficha
+        </Link>
         {c.verified ? (
           <button
             type="button"

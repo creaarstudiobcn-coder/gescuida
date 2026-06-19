@@ -19,9 +19,12 @@ interface SendError {
   code?: string;
 }
 
-// Hilo de mensajería para un turno. Lo usan familia y cuidadora.
-export function ChatThread({ shiftId }: { shiftId: string }) {
-  const { data, refresh } = usePolling<Msg[]>(`/api/messages?shiftId=${shiftId}`, 4000);
+// Hilo de mensajería. Dos modos:
+//  · shiftId    → conversación de un turno (familia ↔ cuidadora). Uso original.
+//  · withUserId → conversación directa con otro usuario (admin ↔ cuidadora).
+export function ChatThread({ shiftId, withUserId }: { shiftId?: string; withUserId?: string }) {
+  const query = shiftId ? `shiftId=${shiftId}` : `withUserId=${withUserId}`;
+  const { data, refresh } = usePolling<Msg[]>(`/api/messages?${query}`, 4000);
   const [body, setBody] = useState("");
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState<SendError | null>(null);
@@ -36,7 +39,9 @@ export function ChatThread({ shiftId }: { shiftId: string }) {
     const res = await fetch("/api/messages", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ shiftId, body, recaptchaToken }),
+      body: JSON.stringify(
+        shiftId ? { shiftId, body, recaptchaToken } : { withUserId, body, recaptchaToken }
+      ),
     });
     setSending(false);
     if (res.ok) {

@@ -70,3 +70,39 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
   </div>`;
   return send(to, subject, html, text);
 }
+
+// Aviso a la cuidadora de que el equipo de GesCuida le ha escrito un mensaje en la plataforma.
+// No incluye el contenido del mensaje: solo invita a entrar al panel a leerlo y responder.
+export async function sendNewMessageEmail(
+  to: string,
+  name: string,
+  panelUrl: string
+): Promise<SendResult> {
+  const subject = "Tienes un mensaje nuevo — GesCuida";
+  const saludo = name ? `Hola ${name}:` : "Hola:";
+  const text =
+    `${saludo}\n\n` +
+    `El equipo de GesCuida te ha enviado un mensaje en la plataforma.\n\n` +
+    `Entra en tu panel para leerlo y responder:\n${panelUrl}\n\n` +
+    `Un saludo,\nEquipo GesCuida`;
+  const html = `
+  <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:480px;margin:0 auto;color:#1f2d3d">
+    <h1 style="font-size:20px;color:#1f5e44">Tienes un mensaje nuevo</h1>
+    <p>${saludo}</p>
+    <p>El equipo de <strong>GesCuida</strong> te ha enviado un mensaje en la plataforma.</p>
+    <p style="text-align:center;margin:28px 0">
+      <a href="${panelUrl}"
+         style="background:#2E9B72;color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:600;display:inline-block">
+        Leer y responder
+      </a>
+    </p>
+    <p style="font-size:13px;color:#6b7280">Si el botón no funciona, copia y pega esta dirección en tu navegador:<br>
+      <a href="${panelUrl}" style="color:#2E9B72;word-break:break-all">${panelUrl}</a>
+    </p>
+    <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0">
+    <p style="font-size:13px;color:#6b7280">
+      Recibes este aviso porque tienes una cuenta de cuidadora en GesCuida.
+    </p>
+  </div>`;
+  return send(to, subject, html, text);
+}

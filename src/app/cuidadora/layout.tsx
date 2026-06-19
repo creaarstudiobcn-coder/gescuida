@@ -6,6 +6,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
   const nav = [
     { href: "/cuidadora", label: "Turnos", icon: "🔍" },
     { href: "/cuidadora/agenda", label: "Agenda", icon: "🗓️" },
+    { href: "/cuidadora/mensajes", label: "Mensajes", icon: "💬" },
     { href: "/cuidadora/ganancias", label: "Ingresos", icon: "💶" },
     { href: "/cuidadora/perfil", label: "Perfil", icon: "👤" },
   ];

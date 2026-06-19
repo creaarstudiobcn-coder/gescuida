@@ -59,3 +59,22 @@ export interface CaregiverAdmin {
   suspended: boolean;
   shiftsCount: number;
 }
+
+export interface CaregiverDetail {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  createdAt: string;
+  shiftsCount: number;
+  verified: boolean;
+  verifiedAt: string | null;
+  suspended: boolean;
+  zones: string[];
+  bio: string | null;
+  training: string | null;
+  photoUrl: string | null;
+  availability: unknown;
+  hourlyRateMinCents: number | null;
+  hourlyRateMaxCents: number | null;
+}
