@@ -109,6 +109,29 @@ model User {
   // Mensajería
   sentMessages     Message[] @relation("SentMessages")
   receivedMessages Message[] @relation("ReceivedMessages")
+
+  // Recuperación de contraseña
+  passwordResetTokens PasswordResetToken[]
+}
+
+// ─────────────────────────────────────────────
+//  RECUPERACIÓN DE CONTRASEÑA
+// ─────────────────────────────────────────────
+// Token de un solo uso para restablecer la contraseña. En la base de datos NO se guarda el
+// token en claro: solo su hash SHA-256. El token original solo viaja en el enlace del email.
+// Así, aunque alguien viera esta tabla, no podría usar los enlaces.
+model PasswordResetToken {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  tokenHash String    @unique // SHA-256 (hex) del token enviado por email
+  expiresAt DateTime // caducidad (p. ej. 1 hora desde su creación)
+  usedAt    DateTime? // se marca al usarse → impide reutilizar el enlace
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 model CaregiverProfile {
@@ -127,7 +150,7 @@ model CaregiverProfile {
   hourlyRateMinCents Int?
   hourlyRateMaxCents Int?
 
-  hourlyPayCents Int    @default(1400) // LEGACY (modelo agencia): sin uso
+  hourlyPayCents Int @default(1400) // LEGACY (modelo agencia): sin uso
 
   verified   Boolean   @default(false) // verificada por el admin
   verifiedAt DateTime?
@@ -169,11 +192,11 @@ model CareRecipient {
 // En el modelo plataforma existe un único Plan: ACCESO (cuota mensual de acceso).
 // `monthlyHours` se conserva por compatibilidad pero queda a 0 (sin bolsa de horas).
 model Plan {
-  id           String  @id @default(cuid())
-  key          PlanKey @unique
-  name         String
-  monthlyHours Int     @default(0) // LEGACY: sin uso en el modelo plataforma
-  priceCents   Int
+  id            String  @id @default(cuid())
+  key           PlanKey @unique
+  name          String
+  monthlyHours  Int     @default(0) // LEGACY: sin uso en el modelo plataforma
+  priceCents    Int
   stripePriceId String?
 
   subscriptions Subscription[]
@@ -187,10 +210,10 @@ model Subscription {
   planId String
   plan   Plan   @relation(fields: [planId], references: [id])
 
-  stripeSubscriptionId String? @unique
+  stripeSubscriptionId String?            @unique
   status               SubscriptionStatus @default(INCOMPLETE)
 
-  hoursIncluded     Int @default(0) // LEGACY: sin uso en el modelo plataforma (sin bolsa de horas)
+  hoursIncluded      Int       @default(0) // LEGACY: sin uso en el modelo plataforma (sin bolsa de horas)
   currentPeriodStart DateTime?
   currentPeriodEnd   DateTime? // fin del ciclo de la cuota de acceso (renovación mensual)
 
@@ -207,10 +230,10 @@ model ExtraHoursPurchase {
   familyUserId String
   family       User   @relation(fields: [familyUserId], references: [id], onDelete: Cascade)
 
-  hours          Float
+  hours             Float
   pricePerHourCents Int
-  totalCents     Int
-  dayType        DayType
+  totalCents        Int
+  dayType           DayType
 
   stripePaymentIntentId String?
   status                PaymentStatus @default(PENDIENTE)
@@ -309,11 +332,11 @@ model Payment {
   familyUserId String
   family       User   @relation(fields: [familyUserId], references: [id], onDelete: Cascade)
 
-  type          PaymentType
-  amountCents   Int
-  status        PaymentStatus @default(PENDIENTE)
-  description   String?
-  stripeRef     String? // payment_intent o invoice id
+  type        PaymentType
+  amountCents Int
+  status      PaymentStatus @default(PENDIENTE)
+  description String?
+  stripeRef   String? // payment_intent o invoice id
 
   createdAt DateTime @default(now())
 
