@@ -13,7 +13,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/familia", "/cuidadora", "/api", "/post-login"],
+        // OJO: "/cuidadora" a secas bloquearía también "/cuidadoras/..." (páginas SEO de zona)
+        // por coincidencia de prefijo. Usamos "$" para el panel exacto y "/cuidadora/" para sus
+        // subrutas, dejando "/cuidadoras/<pueblo>" rastreable e indexable.
+        disallow: ["/familia", "/cuidadora$", "/cuidadora/", "/api", "/post-login"],
       },
     ],
     sitemap: `${BASE}/sitemap.xml`,

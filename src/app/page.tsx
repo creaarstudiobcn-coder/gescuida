@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ACCESS_PLANS, formatEuros } from "@/lib/pricing";
+import { ZonasLinks } from "@/components/ZonasLinks";
 
 const PASOS = [
   {
@@ -180,6 +181,9 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      {/* Zonas donde operamos (SEO local + enlaces internos) */}
+      <ZonasLinks />
 
       {/* Footer */}
       <footer className="mt-16 rounded-2xl bg-marino-900 px-6 py-8 text-center text-sm text-salvia-100">
