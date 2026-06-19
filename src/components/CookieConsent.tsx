@@ -41,10 +41,10 @@ function writeConsent(c: Consent) {
 function applyConsent(c: Consent) {
   if (typeof window !== "undefined") {
     (window as unknown as { __gescuidaConsent?: Consent }).__gescuidaConsent = c;
-    if (c.analytics) {
-      // Cuando se configure Google Analytics (u otra), se cargará aquí, nunca antes.
-      window.dispatchEvent(new CustomEvent("gescuida-consent", { detail: c }));
-    }
+    // Se notifica SIEMPRE (acepte o rechace) para que los listeners —Google Analytics, etc.—
+    // reaccionen también a la REVOCACIÓN del consentimiento, no solo a la aceptación.
+    // Cada listener decide qué hacer leyendo detail.analytics.
+    window.dispatchEvent(new CustomEvent("gescuida-consent", { detail: c }));
   }
 }
 
