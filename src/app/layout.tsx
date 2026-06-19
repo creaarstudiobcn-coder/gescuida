@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { CookieConsent } from "@/components/CookieConsent";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { CrispChat } from "@/components/CrispChat";
 import "./globals.css";
 
 // Tipografía de marca: Plus Jakarta Sans (800 logotipo/títulos, 600 subtítulos).
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <CookieConsent />
         <GoogleAnalytics />
+        <CrispChat />
       </body>
     </html>
   );

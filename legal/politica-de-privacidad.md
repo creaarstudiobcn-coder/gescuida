@@ -1,6 +1,6 @@
 # Política de Privacidad de GesCuida
 
-**Última actualización:** 18 de junio de 2026
+**Última actualización:** 19 de junio de 2026
 **Versión:** 1.0
 
 Esta Política describe cómo **Dependalium Global Services, S.L.** trata los datos personales de quienes usan la plataforma **GesCuida**, conforme al Reglamento (UE) 2016/679 (**RGPD**) y a la Ley Orgánica 3/2018, de Protección de Datos Personales y garantía de los derechos digitales (**LOPDGDD**).
@@ -54,6 +54,7 @@ Conservamos los datos durante la vigencia de la relación y, posteriormente, **b
 
 - **Cuidadora asignada:** recibe los datos necesarios para el servicio (incluida la dirección) **solo tras aceptar** el turno.
 - **Stripe** (pasarela de pago): como **encargado del tratamiento**, para procesar la cuota de acceso.
+- **Crisp** (chat de soporte): como **encargado del tratamiento**, cuando escribes por el chat de la web. Trata los **mensajes que envías, tu email (si lo facilitas) y tu dirección IP** para poder atenderte. Sus datos se **alojan en la Unión Europea**.
 - **Proveedores tecnológicos** (alojamiento e infraestructura): como encargados del tratamiento.
 - **Administraciones públicas, jueces y tribunales:** cuando exista obligación legal.
 
@@ -64,6 +65,7 @@ No se realizan cesiones distintas de las anteriores salvo obligación legal o co
 La Empresa suscribe con sus proveedores los **contratos de encargo del tratamiento** exigidos por el art. 28 RGPD. Proveedores actuales:
 - **Alojamiento e infraestructura:** Vercel y Supabase.
 - **Pasarela de pago:** Stripe.
+- **Chat de soporte:** Crisp (Crisp IM SARL, Francia), con datos **alojados en la Unión Europea**.
 
 ## 8. Transferencias internacionales
 
@@ -92,6 +94,7 @@ No se adoptan decisiones automatizadas que produzcan efectos jurídicos o que af
 Utilizamos cookies y tecnologías similares:
 - **Cookies técnicas necesarias** para el funcionamiento de la Plataforma (por ejemplo, mantener la sesión iniciada). No requieren consentimiento.
 - **Cookies analíticas**, para medir y mejorar el uso del sitio. Solo se instalan **con tu consentimiento**, que prestas o rechazas a través del aviso de cookies y puedes modificar en cualquier momento.
+- **Cookies funcionales del chat** (Crisp), para mantener la conversación del chat de soporte. Solo se cargan **con tu consentimiento**; si no lo prestas, el chat no se carga.
 
 Consulta el detalle de las cookies en nuestra [Política de Cookies](/cookies).
 
