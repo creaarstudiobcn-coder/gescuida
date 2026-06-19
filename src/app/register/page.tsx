@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { MUNICIPIOS_MARESME, ACCESS_PLANS, formatEuros } from "@/lib/pricing";
 import { useRecaptcha } from "@/components/useRecaptcha";
+import { GoogleButton } from "@/components/GoogleButton";
 
 type Role = "FAMILIA" | "CUIDADORA";
 
@@ -114,6 +115,29 @@ function RegisterForm() {
             </>
           )}
         </p>
+
+        {/* Alta rápida con Google: crea la cuenta con el rol de la pestaña activa. */}
+        <div className="mt-5">
+          <GoogleButton
+            role={role}
+            label={role === "FAMILIA" ? "Crear cuenta de familia con Google" : "Crear cuenta de cuidadora con Google"}
+          />
+          <p className="mt-2 text-center text-xs text-marino-400">
+            Al continuar con Google aceptas los{" "}
+            <Link href="/terminos" className="underline" target="_blank">
+              Términos
+            </Link>{" "}
+            y la{" "}
+            <Link href="/privacidad" className="underline" target="_blank">
+              Política de Privacidad
+            </Link>
+            .
+          </p>
+        </div>
+
+        <div className="my-5 flex items-center gap-3 text-sm text-marino-400">
+          <span className="h-px flex-1 bg-marino-200" />o con tu email<span className="h-px flex-1 bg-marino-200" />
+        </div>
 
         <form onSubmit={onSubmit} className="mt-5 space-y-4">
           <div>

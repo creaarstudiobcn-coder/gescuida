@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useRecaptcha } from "@/components/useRecaptcha";
+import { GoogleButton } from "@/components/GoogleButton";
 
 function LoginForm() {
   const router = useRouter();
@@ -47,6 +48,14 @@ function LoginForm() {
       <div className="card">
         <h1 className="text-2xl font-bold text-marino-800">Entrar</h1>
         <p className="mt-1 text-marino-600">Accede a tu cuenta.</p>
+
+        <div className="mt-6">
+          <GoogleButton callbackUrl={callbackUrl} />
+        </div>
+
+        <div className="my-5 flex items-center gap-3 text-sm text-marino-400">
+          <span className="h-px flex-1 bg-marino-200" />o con tu email<span className="h-px flex-1 bg-marino-200" />
+        </div>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
           <div>

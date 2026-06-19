@@ -80,7 +80,7 @@ enum PaymentStatus {
 model User {
   id           String  @id @default(cuid())
   email        String  @unique
-  passwordHash String
+  passwordHash String? // opcional: las cuentas creadas con Google no tienen contraseña
   name         String
   phone        String?
   role         Role    @default(FAMILIA)
