@@ -72,32 +72,60 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
     // No hay adaptador de Prisma: NextAuth no persiste el usuario por sí solo.
     // Aquí hacemos el alta (o el "login" si ya existe) de las cuentas de Google.
-    async signIn({ account, profile }) {
+    // OJO: Auth.js convierte tanto un `return false` como CUALQUIER excepción
+    // lanzada aquí en la página de error "AccessDenied". Por eso bloqueamos lo
+    // mínimo imprescindible y envolvemos el acceso a BD en try/catch con logs.
+    async signIn({ user, account, profile }) {
       if (account?.provider !== "google") return true;
 
-      // Google verifica los emails; solo enlazamos por email verificado.
-      if (!profile?.email_verified || !profile.email) return false;
-      const email = profile.email.toLowerCase();
+      const email = (profile?.email ?? user?.email)?.toLowerCase();
+      console.log("[auth] Google signIn", { email, email_verified: profile?.email_verified });
 
-      const existing = await prisma.user.findUnique({ where: { email } });
-      if (existing) return true; // ya existe → entrar sin tocar su rol
+      if (!email) {
+        console.error("[auth] Google signIn denegado: el profile no trae email");
+        return false;
+      }
 
-      const role = await readPendingRole();
-      await prisma.user.create({
-        data: {
-          email,
-          name: (profile.name as string) || email.split("@")[0],
-          role,
-          // El usuario acepta los Términos/Privacidad al pulsar "Continuar con Google".
-          consentRGPD: true,
-          consentAt: new Date(),
-          // Si es cuidadora, creamos su perfil (pendiente de verificación por admin).
-          ...(role === "CUIDADORA"
-            ? { caregiverProfile: { create: { zones: [], verified: false } } }
-            : {}),
-        },
-      });
-      return true;
+      // Google solo entrega cuentas con el email verificado. Algunos flujos no
+      // incluyen el campo `email_verified` en el profile (llega undefined), así
+      // que SOLO bloqueamos si viene EXPLÍCITAMENTE como no verificado.
+      if (profile?.email_verified === false) {
+        console.error("[auth] Google signIn denegado: email no verificado", email);
+        return false;
+      }
+
+      try {
+        const existing = await prisma.user.findUnique({ where: { email } });
+        if (existing) {
+          // Ya existe → iniciar sesión sin tocar su rol.
+          console.log("[auth] Google: usuario existente, login (rol", existing.role + ")");
+          return true;
+        }
+
+        // Usuario nuevo → crear con el rol de la cookie (FAMILIA por defecto).
+        const role = await readPendingRole();
+        await prisma.user.create({
+          data: {
+            email,
+            name: (profile?.name as string) || email.split("@")[0],
+            role,
+            // Acepta Términos/Privacidad al pulsar "Continuar con Google".
+            consentRGPD: true,
+            consentAt: new Date(),
+            // Si es cuidadora, creamos su perfil (pendiente de verificación).
+            ...(role === "CUIDADORA"
+              ? { caregiverProfile: { create: { zones: [], verified: false } } }
+              : {}),
+          },
+        });
+        console.log("[auth] Google: usuario nuevo creado con rol", role);
+        return true;
+      } catch (err) {
+        // Si Prisma falla aquí, Auth.js lo mostraría como "AccessDenied" sin
+        // pista alguna. Lo registramos para no diagnosticar a ciegas.
+        console.error("[auth] Error en signIn de Google:", err);
+        return false;
+      }
     },
 
     // Para Google, el usuario vive en nuestra BD pero no llega por el `user`
