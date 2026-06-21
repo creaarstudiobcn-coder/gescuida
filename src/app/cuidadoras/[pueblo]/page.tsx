@@ -83,7 +83,10 @@ export default async function CuidadorasPuebloPage({
     areaServed: {
       "@type": "City",
       name: p.name,
-      containedInPlace: { "@type": "AdministrativeArea", name: "Maresme, Barcelona" },
+      containedInPlace: {
+        "@type": "AdministrativeArea",
+        name: `${p.comarca ?? "Maresme"}, Barcelona`,
+      },
     },
     provider: {
       "@type": "Organization",
@@ -132,7 +135,7 @@ export default async function CuidadorasPuebloPage({
       {/* Hero */}
       <section className="mt-3 rounded-3xl bg-gradient-to-br from-marino-800 to-calido-600 px-6 py-12 text-white shadow-lg">
         <span className="badge bg-white/15 text-salvia-50">
-          {p.geo === "costero" ? "Maresme · costa" : "Maresme · interior"}
+          {p.regionLabel ?? `${p.comarca ?? "Maresme"} · ${p.geo === "costero" ? "costa" : "interior"}`}
         </span>
         <h1 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight sm:text-4xl">
           Cuidadora de mayores en {p.name}
@@ -210,8 +213,8 @@ export default async function CuidadorasPuebloPage({
           <div className="mt-4 rounded-2xl border-2 border-salvia-200 bg-salvia-50 p-6">
             <p className="text-marino-800">
               Todavía no tenemos cuidadoras dadas de alta específicamente en <strong>{p.name}</strong>
-              . Estamos creciendo por todo el Maresme: deja tu registro como familia y te avisaremos
-              en cuanto haya cuidadoras disponibles en tu zona.
+              . Estamos creciendo por la provincia de Barcelona: deja tu registro como familia y te
+              avisaremos en cuanto haya cuidadoras disponibles en tu zona.
             </p>
             <p className="mt-3 text-marino-700">
               ¿Eres cuidadora y trabajas en {p.name}? <strong>Sé de las primeras en aparecer aquí.</strong>
@@ -220,20 +223,44 @@ export default async function CuidadorasPuebloPage({
         )}
       </section>
 
-      {/* Doble llamada a la acción */}
-      <section className="mt-14 grid gap-5 sm:grid-cols-2">
-        <div className="card flex flex-col">
-          <h3 className="text-xl font-extrabold text-marino-800">Para familias</h3>
-          <p className="mt-2 flex-1 text-marino-600">{p.familias}</p>
-          <Link href="/register?role=FAMILIA" className="btn-primary mt-5">
-            Buscar cuidadora
+      {/* Dos públicos, dos secciones bien visibles: familias y cuidadoras */}
+      <section className="mt-16 grid gap-6 lg:grid-cols-2">
+        {/* A) Familias que buscan cuidadora */}
+        <div className="flex flex-col rounded-3xl border-2 border-calido-200 bg-calido-50 p-7 sm:p-8">
+          <span className="badge w-fit bg-calido-500 text-white">Para familias</span>
+          <h2 className="mt-3 text-2xl font-extrabold text-marino-800">
+            {p.paraFamilias?.titulo ?? `¿Buscas cuidadora para un mayor en ${p.name}?`}
+          </h2>
+          <div className="mt-3 flex-1 space-y-3 text-marino-700">
+            {(p.paraFamilias?.body ?? [p.familias]).map((par, i) => (
+              <p key={i} className="leading-relaxed">
+                {par}
+              </p>
+            ))}
+          </div>
+          <Link href="/register?role=FAMILIA" className="btn-primary mt-6 text-lg">
+            Buscar cuidadora en {p.name}
           </Link>
         </div>
-        <div className="card flex flex-col">
-          <h3 className="text-xl font-extrabold text-marino-800">Para cuidadoras</h3>
-          <p className="mt-2 flex-1 text-marino-600">{p.cuidadoras}</p>
-          <Link href="/register?role=CUIDADORA" className="btn-secondary mt-5">
-            Registrarme gratis
+
+        {/* B) Cuidadoras que buscan trabajo */}
+        <div className="flex flex-col rounded-3xl border-2 border-marino-200 bg-marino-50 p-7 sm:p-8">
+          <span className="badge w-fit bg-marino-700 text-white">Para cuidadoras</span>
+          <h2 className="mt-3 text-2xl font-extrabold text-marino-800">
+            {p.paraCuidadoras?.titulo ?? `¿Eres cuidadora en ${p.name}?`}
+          </h2>
+          <div className="mt-3 flex-1 space-y-3 text-marino-700">
+            {(p.paraCuidadoras?.body ?? [p.cuidadoras]).map((par, i) => (
+              <p key={i} className="leading-relaxed">
+                {par}
+              </p>
+            ))}
+          </div>
+          <Link
+            href="/register?role=CUIDADORA"
+            className="btn-primary mt-6 bg-marino-700 text-lg hover:bg-marino-800"
+          >
+            Regístrate gratis y encuentra trabajo
           </Link>
         </div>
       </section>

@@ -11,7 +11,7 @@ export function ZonasLinks({ excludeSlug }: { excludeSlug?: string }) {
     <section className="mt-16">
       <h2 className="text-center text-2xl font-bold text-marino-800">Zonas donde operamos</h2>
       <p className="mx-auto mt-2 max-w-2xl text-center text-marino-600">
-        Conectamos familias y cuidadoras en Mataró y los municipios del Maresme.
+        Conectamos familias y cuidadoras en Barcelona, el Maresme y municipios de la provincia.
       </p>
       <ul className="mx-auto mt-6 flex max-w-3xl flex-wrap justify-center gap-2.5">
         {pueblos.map((p) => (

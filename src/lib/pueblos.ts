@@ -1,27 +1,162 @@
-// Contenido SEO local por municipio del Maresme → /cuidadoras/[pueblo].
+// Contenido SEO local por municipio → /cuidadoras/[pueblo].
+//
+// Cobertura: los 15 municipios del Maresme + las ciudades grandes de la provincia de Barcelona.
 //
 // REGLAS DE CONTENIDO:
-//  · `name` debe coincidir EXACTAMENTE con la cadena de MUNICIPIOS_MARESME (src/lib/pricing.ts),
+//  · `name` debe coincidir EXACTAMENTE con la cadena de zonas (MUNICIPIOS, src/lib/pricing.ts),
 //    porque es la que se guarda en CaregiverProfile.zones y con la que filtramos en la BD.
 //  · Cada municipio tiene texto ÚNICO (redacción, estructura y enfoque distintos). Las secciones
-//    (número y encabezados) varían por pueblo a propósito: no es un molde clonado.
-//  · Solo datos REALES y verificables (pertenencia al Maresme/provincia de Barcelona, costero o
-//    interior, tamaño aproximado). NADA de barrios, residencias, cifras de población inventadas.
+//    (número y encabezados) varían por ciudad a propósito: no es un molde clonado.
+//  · Solo datos REALES y verificables (comarca, provincia de Barcelona, área metropolitana o
+//    interior, costero o no, tamaño relativo). NADA de barrios, residencias o cifras inventadas.
+//  · Cada página capta a LOS DOS PÚBLICOS: familias (paraFamilias) y cuidadoras (paraCuidadoras),
+//    con texto adaptado a cada uno.
 
 export interface PuebloSeo {
   slug: string; // URL: /cuidadoras/<slug>
   name: string; // nombre y, a la vez, cadena exacta de la zona en BD (CaregiverProfile.zones)
   geo: "costero" | "interior"; // dato real verificable (por el nombre/ubicación del municipio)
+  comarca?: string; // comarca real (default "Maresme"); usado en Schema.org y en el badge
+  regionLabel?: string; // etiqueta del badge (override); si no, se deriva de comarca + geo
   seoTitle: string; // <title> único
   seoDescription: string; // meta description única
   hero: string; // párrafo de entrada (H1 va aparte, fijo por plantilla)
-  sections: { h2: string; body: string[] }[]; // estructura variable por pueblo
-  familias: string; // frase de contexto para la CTA de familias (única)
-  cuidadoras: string; // frase de contexto para la CTA de cuidadoras (única)
+  sections: { h2: string; body: string[] }[]; // estructura variable por ciudad
+  // Secciones prominentes para cada público (texto único por ciudad). Si no se definen, se usan
+  // las frases cortas `familias`/`cuidadoras` como respaldo.
+  paraFamilias?: { titulo?: string; body: string[] };
+  paraCuidadoras?: { titulo?: string; body: string[] };
+  familias: string; // frase de respaldo para la sección de familias (única)
+  cuidadoras: string; // frase de respaldo para la sección de cuidadoras (única)
   faq?: { q: string; a: string }[];
 }
 
 export const PUEBLOS_SEO: PuebloSeo[] = [
+  {
+    slug: "barcelona",
+    name: "Barcelona",
+    geo: "costero",
+    comarca: "Barcelonès",
+    regionLabel: "Barcelonès · capital",
+    seoTitle: "Cuidadora de mayores en Barcelona | Ayuda a domicilio — GesCuida",
+    seoDescription:
+      "¿Buscas cuidadora para una persona mayor en Barcelona? Conecta con cuidadoras independientes de la ciudad. Tú eliges, contactas y acuerdas el cuidado directamente, sin agencias.",
+    hero:
+      "Barcelona es la ciudad más grande de Cataluña y la que más familias tiene cuidando de un mayor en casa. En una ciudad de este tamaño no faltan opciones, pero precisamente por eso cuesta saber por dónde empezar y en quién confiar. GesCuida simplifica esa primera búsqueda: te pone en contacto directo con cuidadoras que trabajan en Barcelona, sin agencias de por medio.",
+    sections: [
+      {
+        h2: "Ayuda a domicilio para personas mayores en Barcelona",
+        body: [
+          "Cuando un padre, una madre o un abuelo empieza a necesitar compañía, ayuda con las tareas del día o una atención más constante, lo habitual es querer que siga en su propia casa, en su barrio de siempre. En una ciudad tan grande como Barcelona, el reto no es que falten cuidadoras, sino encontrar a la persona adecuada entre muchas.",
+          "GesCuida resuelve esa parte. Reunimos a cuidadoras que trabajan por los distintos barrios y distritos de la ciudad, y te damos las herramientas para contactar con ellas, ver cómo trabajan y acordar directamente los detalles. No somos una agencia que te asigna a alguien: eres tú quien elige.",
+        ],
+      },
+      {
+        h2: "Una ciudad grande, cuidadoras cerca de tu zona",
+        body: [
+          "Barcelona se vive por barrios, y en el cuidado de un mayor la cercanía importa: una cuidadora que se mueve por tu zona llega antes y puede mantener una rutina estable. Por eso cada cuidadora indica las áreas de la ciudad que cubre, para que encuentres a alguien que pueda acudir al domicilio con regularidad.",
+          "Además, al estar todo bien comunicado por transporte público, muchas cuidadoras se desplazan con facilidad entre distritos, lo que amplía tus opciones reales.",
+        ],
+      },
+      {
+        h2: "Transparencia: la cuota y el cuidado van por separado",
+        body: [
+          "Cada cuidadora fija su propia tarifa por hora y la acuerdas directamente con ella; GesCuida no añade ningún sobreprecio al cuidado. Tu cuota mensual es solo por usar la plataforma para encontrar y contactar cuidadoras. Así sabes siempre qué pagas y a quién.",
+        ],
+      },
+    ],
+    paraFamilias: {
+      titulo: "¿Buscas cuidadora para un mayor en Barcelona?",
+      body: [
+        "Encuentra a una cuidadora de confianza que trabaje en tu zona de la ciudad. Ves varios perfiles, hablas con ellas por el chat y eliges tú con quién seguir, sin que nadie te imponga un nombre ni un horario.",
+        "El cuidado lo acuerdas directamente con la cuidadora: tareas, horarios y tarifa. Tu cuota es solo por usar la plataforma; el resto lo decides tú.",
+      ],
+    },
+    paraCuidadoras: {
+      titulo: "¿Eres cuidadora en Barcelona?",
+      body: [
+        "Regístrate gratis y empieza a recibir solicitudes de familias de la ciudad. Tú pones tu tarifa por hora, indicas las zonas de Barcelona que cubres y aceptas solo los turnos que te encajan.",
+        "Barcelona concentra una gran parte de la demanda de cuidado a domicilio de toda Cataluña: es un buen sitio para darte a conocer y encontrar trabajo estable cerca de casa.",
+      ],
+    },
+    familias: "Encuentra hoy una cuidadora de confianza en tu zona de Barcelona.",
+    cuidadoras: "¿Cuidas mayores en Barcelona? Regístrate gratis y recibe solicitudes de familias.",
+    faq: [
+      {
+        q: "¿GesCuida es una agencia de cuidadoras?",
+        a: "No. Somos una plataforma de conexión: te ponemos en contacto con cuidadoras independientes que trabajan en Barcelona. No las empleamos ni prestamos el servicio de cuidado; ese acuerdo es directamente entre la familia y la cuidadora.",
+      },
+      {
+        q: "¿Hay cuidadoras en todos los barrios de Barcelona?",
+        a: "Cada cuidadora indica las zonas de la ciudad que cubre. En la página verás las que tienen Barcelona entre sus áreas de trabajo; si todavía no hay ninguna disponible en tu zona concreta, te lo decimos con sinceridad y te avisamos en cuanto la haya.",
+      },
+      {
+        q: "¿Cuánto cuesta el cuidado en Barcelona?",
+        a: "El precio lo fija cada cuidadora según su tarifa por hora, y lo acuerdas con ella. La cuota de GesCuida es aparte y solo cubre el uso de la plataforma para encontrar y contactar cuidadoras.",
+      },
+    ],
+  },
+
+  {
+    slug: "badalona",
+    name: "Badalona",
+    geo: "costero",
+    comarca: "Barcelonès",
+    regionLabel: "Barcelonès · àrea metropolitana",
+    seoTitle: "Cuidadora de mayores en Badalona | Ayuda a domicilio — GesCuida",
+    seoDescription:
+      "Encuentra cuidadora para una persona mayor en Badalona. Conecta con cuidadoras independientes de la ciudad y del área metropolitana; tú eliges y acuerdas el cuidado directamente.",
+    hero:
+      "Badalona es una de las ciudades más pobladas de Cataluña, pegada a Barcelona y abierta al mar. Con tanta gente, son muchas las familias que en algún momento necesitan una mano para cuidar de un mayor en casa. GesCuida les acerca a cuidadoras que ya trabajan en Badalona y su entorno, sin pasar por una agencia.",
+    sections: [
+      {
+        h2: "Cuidado de mayores a domicilio en Badalona",
+        body: [
+          "A veces basta con compañía y ayuda unas horas; otras hace falta una atención más continuada con la higiene, las comidas o la medicación. En ambos casos, lo que más tranquiliza es contar con alguien de confianza que pueda acudir al domicilio con regularidad y mantener a la persona mayor en su casa de siempre.",
+          "GesCuida te muestra cuidadoras que trabajan en Badalona; tú comparas, hablas con ellas por el chat y decides. Ni asignamos cuidadoras ni cobramos el cuidado: el acuerdo —tareas, horarios y tarifa— se cierra directamente entre la familia y la cuidadora.",
+        ],
+      },
+      {
+        h2: "Una gran ciudad, mejor con cuidadoras de la zona",
+        body: [
+          "Badalona es extensa y se vive por barrios, así que una cuidadora que se mueva por tu zona es una ventaja real: llega antes, conoce el entorno y puede mantener una rutina estable. Y al estar dentro del área metropolitana y bien comunicada con Barcelona y Sant Adrià, muchas cuidadoras cubren varios municipios cercanos.",
+        ],
+      },
+      {
+        h2: "Sin sobreprecios sobre el cuidado",
+        body: [
+          "Cada cuidadora pone su propia tarifa por hora y la acuerdas con ella. GesCuida no añade ningún recargo al cuidado: tu cuota mensual es solo por usar la plataforma para encontrar y contactar cuidadoras de Badalona.",
+        ],
+      },
+    ],
+    paraFamilias: {
+      titulo: "¿Buscas cuidadora para un mayor en Badalona?",
+      body: [
+        "Conecta con cuidadoras que trabajan en Badalona y su entorno. Comparas varios perfiles, hablas con ellas y eliges tú a la persona adecuada, sin que nadie te la imponga.",
+        "El cuidado y su precio los acuerdas directamente con la cuidadora. Tu cuota solo cubre el uso de la plataforma para encontrarla.",
+      ],
+    },
+    paraCuidadoras: {
+      titulo: "¿Eres cuidadora en Badalona?",
+      body: [
+        "Regístrate gratis y recibe solicitudes de familias de Badalona y los municipios vecinos. Tú decides tu tarifa por hora, las zonas que cubres y los turnos que aceptas.",
+        "Al ser una de las ciudades más grandes del área metropolitana, en Badalona hay una demanda constante de cuidado a domicilio: una buena base para encontrar trabajo cerca de casa.",
+      ],
+    },
+    familias: "Encuentra una cuidadora de confianza en tu zona de Badalona.",
+    cuidadoras: "¿Cuidas mayores en Badalona? Regístrate gratis y empieza a recibir solicitudes.",
+    faq: [
+      {
+        q: "¿Las cuidadoras son de Badalona?",
+        a: "Trabajamos con cuidadoras del área metropolitana. En la página verás las que tienen Badalona entre sus zonas de trabajo; si aún no hay ninguna registrada en tu zona, te lo decimos con sinceridad y te avisamos en cuanto la haya.",
+      },
+      {
+        q: "¿Qué incluye la cuota de GesCuida?",
+        a: "Solo el uso de la plataforma para contactar con cuidadoras. El cuidado en sí lo acuerdas y lo pagas directamente con la cuidadora que elijas.",
+      },
+    ],
+  },
+
   {
     slug: "mataro",
     name: "Mataró",

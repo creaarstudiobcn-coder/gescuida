@@ -37,7 +37,7 @@ export function ChatWidget() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Cerrar chat" : "Abrir chat de ayuda"}
-        className="fixed bottom-4 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-marino-700 text-2xl text-white shadow-xl transition hover:bg-marino-800"
+        className="fixed bottom-24 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-marino-700 text-2xl text-white shadow-xl transition hover:bg-marino-800"
       >
         {open ? "✕" : "💬"}
       </button>
@@ -88,7 +88,7 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="fixed bottom-20 right-4 z-40 flex h-[30rem] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-marino-100 bg-crema-50 shadow-2xl">
+    <div className="fixed bottom-40 right-4 z-40 flex h-[30rem] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-marino-100 bg-crema-50 shadow-2xl">
       {/* Cabecera */}
       <div className="flex items-center justify-between gap-2 bg-marino-700 px-4 py-3 text-white">
         <div>
