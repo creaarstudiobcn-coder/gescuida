@@ -4,7 +4,7 @@ import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { MUNICIPIOS_MARESME, ACCESS_PLANS, formatEuros } from "@/lib/pricing";
+import { ZONAS_COBERTURA, ACCESS_PLANS, formatEuros } from "@/lib/pricing";
 import { useRecaptcha } from "@/components/useRecaptcha";
 import { GoogleButton } from "@/components/GoogleButton";
 
@@ -169,7 +169,7 @@ function RegisterForm() {
             <fieldset>
               <legend className="label">¿En qué municipios trabajas?</legend>
               <div className="flex flex-wrap gap-2">
-                {MUNICIPIOS_MARESME.map((z) => (
+                {ZONAS_COBERTURA.map((z) => (
                   <button
                     type="button"
                     key={z}

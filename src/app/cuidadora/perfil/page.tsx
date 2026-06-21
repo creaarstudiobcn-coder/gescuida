@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MUNICIPIOS_MARESME } from "@/lib/pricing";
+import { ZONAS_COBERTURA } from "@/lib/pricing";
 import { Loading, ErrorCard, Notice } from "../_components/Feedback";
 import { type Availability, type CuidadoraProfile } from "../_components/types";
 
@@ -170,7 +170,7 @@ export default function PerfilPage() {
           Selecciona todas las zonas en las que puedes dar servicio.
         </p>
         <div className="flex flex-wrap gap-2">
-          {MUNICIPIOS_MARESME.map((m) => {
+          {ZONAS_COBERTURA.map((m) => {
             const active = zones.includes(m);
             return (
               <button

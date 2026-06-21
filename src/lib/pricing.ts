@@ -102,8 +102,10 @@ export function formatEuros(cents: number): string {
 // Horas máximas a partir de las cuales saltará la alerta al admin si nadie acepta.
 export const ALERT_HOURS_UNCOVERED = Number(process.env.ALERT_HOURS_UNCOVERED ?? "12");
 
-// Municipios del Maresme servidos (para selección de zona).
-export const MUNICIPIOS_MARESME = [
+// Zonas de cobertura servidas (para selección de zona por las cuidadoras):
+// los municipios del Maresme + las ciudades grandes de la provincia de Barcelona.
+export const ZONAS_COBERTURA = [
+  // Maresme
   "Mataró",
   "Argentona",
   "Cabrera de Mar",
@@ -126,4 +128,30 @@ export const MUNICIPIOS_MARESME = [
   "Pineda de Mar",
   "Tordera",
   "Malgrat de Mar",
+  // Barcelonès
+  "Barcelona",
+  "Badalona",
+  "Santa Coloma de Gramenet",
+  "Sant Adrià de Besòs",
+  "L'Hospitalet de Llobregat",
+  // Baix Llobregat
+  "Cornellà de Llobregat",
+  "Sant Boi de Llobregat",
+  "El Prat de Llobregat",
+  // Vallès Occidental
+  "Sabadell",
+  "Terrassa",
+  "Cerdanyola del Vallès",
+  "Rubí",
+  // Vallès Oriental
+  "Granollers",
+  "Mollet del Vallès",
+  // Bages
+  "Manresa",
+  // Garraf
+  "Vilanova i la Geltrú",
+  // Osona
+  "Vic",
+  // Anoia
+  "Igualada",
 ];

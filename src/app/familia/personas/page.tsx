@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePolling } from "@/components/usePolling";
-import { MUNICIPIOS_MARESME } from "@/lib/pricing";
+import { ZONAS_COBERTURA } from "@/lib/pricing";
 import { Loading, ErrorCard, EmptyCard } from "../_components/Feedback";
 import type { Recipient } from "../_components/types";
 
@@ -156,7 +156,7 @@ function NuevaPersonaForm({ onCreated }: { onCreated: () => void }) {
               required
             >
               <option value="">Selecciona…</option>
-              {MUNICIPIOS_MARESME.map((m) => (
+              {ZONAS_COBERTURA.map((m) => (
                 <option key={m} value={m}>
                   {m}
                 </option>
