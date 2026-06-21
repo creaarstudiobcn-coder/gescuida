@@ -106,3 +106,38 @@ export async function sendNewMessageEmail(
   </div>`;
   return send(to, subject, html, text);
 }
+
+// Aviso al ADMIN de que un visitante ha escrito por el chat de la web mientras no estaba
+// conectado. Incluye el nombre/email del visitante y un extracto para poder priorizar.
+export async function sendChatNotificationEmail(
+  to: string,
+  opts: { visitorName?: string | null; visitorEmail?: string | null; preview: string; panelUrl: string }
+): Promise<SendResult> {
+  const { visitorName, visitorEmail, preview, panelUrl } = opts;
+  const quien = visitorName?.trim() || "Un visitante";
+  const contacto = visitorEmail?.trim() ? ` (${visitorEmail.trim()})` : "";
+  const subject = "Nuevo mensaje en el chat de la web — GesCuida";
+  const text =
+    `${quien}${contacto} te ha escrito por el chat de la web:\n\n` +
+    `"${preview}"\n\n` +
+    `Entra en el panel para responder:\n${panelUrl}\n\n` +
+    `Equipo GesCuida`;
+  const html = `
+  <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:480px;margin:0 auto;color:#1f2d3d">
+    <h1 style="font-size:20px;color:#1f5e44">Nuevo mensaje en el chat de la web</h1>
+    <p><strong>${quien}</strong>${contacto} te ha escrito:</p>
+    <blockquote style="margin:16px 0;padding:12px 16px;border-left:4px solid #2E9B72;background:#f0faf5;border-radius:6px;color:#1f2d3d">
+      ${preview}
+    </blockquote>
+    <p style="text-align:center;margin:28px 0">
+      <a href="${panelUrl}"
+         style="background:#2E9B72;color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:600;display:inline-block">
+        Responder en el panel
+      </a>
+    </p>
+    <p style="font-size:13px;color:#6b7280">Si el botón no funciona, copia y pega esta dirección en tu navegador:<br>
+      <a href="${panelUrl}" style="color:#2E9B72;word-break:break-all">${panelUrl}</a>
+    </p>
+  </div>`;
+  return send(to, subject, html, text);
+}

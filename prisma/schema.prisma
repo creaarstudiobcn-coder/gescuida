@@ -110,6 +110,9 @@ model User {
   sentMessages     Message[] @relation("SentMessages")
   receivedMessages Message[] @relation("ReceivedMessages")
 
+  // Chat de soporte de la web (si el visitante estaba logueado)
+  chatSessions ChatSession[] @relation("UserChatSessions")
+
   // Recuperación de contraseña
   passwordResetTokens PasswordResetToken[]
 }
@@ -360,4 +363,52 @@ model Message {
 
   @@index([shiftId])
   @@index([recipientUserId])
+}
+
+// ─────────────────────────────────────────────
+//  CHAT DE SOPORTE DE LA WEB (visitante ↔ admin)
+// ─────────────────────────────────────────────
+// Chat propio de la web (reemplaza a Crisp). Funciona para visitantes ANÓNIMOS y para
+// usuarios registrados. Cada conversación es una ChatSession identificada por un `token`
+// secreto que el navegador del visitante guarda en una cookie httpOnly de 1ª parte
+// (técnica, sin consentimiento). Las respuestas las da el admin desde el panel.
+
+model ChatSession {
+  id    String @id @default(cuid())
+  token String @unique // secreto del visitante (cookie httpOnly); le da acceso solo a SU hilo
+
+  // Quién escribe. Si está logueado se vincula al usuario; si es anónimo, datos sueltos.
+  userId       String?
+  user         User?   @relation("UserChatSessions", fields: [userId], references: [id], onDelete: SetNull)
+  visitorName  String?
+  visitorEmail String?
+
+  messages ChatMessage[]
+
+  adminReadAt   DateTime? // hasta cuándo ha leído el admin este hilo (badges + email-una-vez)
+  lastMessageAt DateTime  @default(now())
+  createdAt     DateTime  @default(now())
+
+  @@index([lastMessageAt])
+}
+
+model ChatMessage {
+  id        String      @id @default(cuid())
+  sessionId String
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  fromAdmin Boolean // true = lo escribió el admin; false = lo escribió el visitante
+  body      String
+
+  createdAt DateTime @default(now())
+
+  @@index([sessionId])
+}
+
+// Presencia del admin: fila única (id = "admin") que se "refresca" mientras el panel de
+// chat está abierto. El widget del visitante considera al admin "en línea" si lastSeenAt
+// es reciente. Así mostramos 🟢/⚪ y decidimos si avisar por email.
+model AdminPresence {
+  id         String   @id // id fijo "admin" (fila única)
+  lastSeenAt DateTime @updatedAt
 }

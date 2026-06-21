@@ -9,13 +9,12 @@ import Link from "next/link";
 
 const COOKIE_NAME = "gescuida_cc";
 const MAX_AGE_DAYS = 180; // la AEPD recomienda renovar el consentimiento periódicamente
-const VERSION = 2; // v2: añadida la categoría "chat" (Crisp). Al subir, se re-pregunta una vez.
+const VERSION = 2; // Al subir la versión, se re-pregunta el consentimiento una vez.
 
 interface Consent {
   v: number;
   necessary: true;
   analytics: boolean;
-  chat: boolean; // cookies funcionales del chat de soporte (Crisp)
   ts: string;
 }
 
@@ -53,7 +52,6 @@ export function CookieConsent() {
   const [visible, setVisible] = useState(false);
   const [config, setConfig] = useState(false);
   const [analytics, setAnalytics] = useState(false);
-  const [chat, setChat] = useState(false);
 
   useEffect(() => {
     const existing = readConsent();
@@ -64,12 +62,11 @@ export function CookieConsent() {
     }
   }, []);
 
-  function decide(opts: { analytics: boolean; chat: boolean }) {
+  function decide(opts: { analytics: boolean }) {
     const c: Consent = {
       v: VERSION,
       necessary: true,
       analytics: opts.analytics,
-      chat: opts.chat,
       ts: new Date().toISOString(),
     };
     writeConsent(c);
@@ -130,21 +127,6 @@ export function CookieConsent() {
                 aria-label="Activar cookies analíticas"
               />
             </label>
-            <label className="flex cursor-pointer items-start justify-between gap-3 rounded-xl border border-marino-100 bg-white px-4 py-3">
-              <div>
-                <p className="font-semibold text-marino-800">Funcionales (chat)</p>
-                <p className="text-xs text-marino-600">
-                  Activan el chat de soporte para escribirnos tus dudas. Opcionales.
-                </p>
-              </div>
-              <input
-                type="checkbox"
-                className="mt-1 h-5 w-5 shrink-0 accent-calido-500"
-                checked={chat}
-                onChange={(e) => setChat(e.target.checked)}
-                aria-label="Activar cookies funcionales del chat"
-              />
-            </label>
           </div>
         )}
 
@@ -154,14 +136,14 @@ export function CookieConsent() {
             <>
               <button
                 type="button"
-                onClick={() => decide({ analytics: true, chat: true })}
+                onClick={() => decide({ analytics: true })}
                 className="btn-primary flex-1"
               >
                 Aceptar todas
               </button>
               <button
                 type="button"
-                onClick={() => decide({ analytics: false, chat: false })}
+                onClick={() => decide({ analytics: false })}
                 className="btn-secondary flex-1"
               >
                 Rechazar
@@ -178,21 +160,21 @@ export function CookieConsent() {
             <>
               <button
                 type="button"
-                onClick={() => decide({ analytics, chat })}
+                onClick={() => decide({ analytics })}
                 className="btn-primary flex-1"
               >
                 Guardar preferencias
               </button>
               <button
                 type="button"
-                onClick={() => decide({ analytics: false, chat: false })}
+                onClick={() => decide({ analytics: false })}
                 className="btn-secondary flex-1"
               >
                 Rechazar todas
               </button>
               <button
                 type="button"
-                onClick={() => decide({ analytics: true, chat: true })}
+                onClick={() => decide({ analytics: true })}
                 className="btn-ghost flex-1 sm:flex-none"
               >
                 Aceptar todas

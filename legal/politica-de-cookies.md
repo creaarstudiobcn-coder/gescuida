@@ -1,6 +1,6 @@
 # Política de Cookies de GesCuida
 
-**Última actualización:** 19 de junio de 2026
+**Última actualización:** 21 de junio de 2026
 
 Esta Política de Cookies explica qué cookies utiliza la plataforma **GesCuida**, titularidad de **Dependalium Global Services, S.L.** (NIF B26786962), conforme al Reglamento (UE) 2016/679 (RGPD), la Ley Orgánica 3/2018 (LOPDGDD) y el artículo 22.2 de la Ley 34/2002 (LSSI-CE), y siguiendo la *Guía sobre el uso de las cookies* de la Agencia Española de Protección de Datos (AEPD).
 
@@ -30,21 +30,14 @@ Nos ayudan a medir y mejorar el uso del sitio. **Solo se instalan si las aceptas
 
 > Si en algún momento no utilizamos herramientas analíticas, no se instalará ninguna cookie de esta categoría.
 
-### c) Cookies funcionales del chat (opcionales — solo con tu consentimiento)
-Permiten el funcionamiento del **chat de soporte** (Crisp) para que puedas escribirnos tus dudas y mantener la conversación. **Solo se cargan si las aceptas**; si las rechazas, el chat no se carga.
-
-| Cookie | Finalidad | Duración | Titular |
-|---|---|---|---|
-| Crisp (p. ej. `crisp-client/*`) | Mantener la sesión del chat e identificar tu conversación | Hasta 6 meses | Tercero — Crisp IM SARL (Francia, datos en la UE) |
-
-> El chat de Crisp aloja los datos **en la Unión Europea**. Consulta el detalle en nuestra [Política de Privacidad](/privacidad).
+> **Chat de soporte:** el chat de la web es **propio** y funciona dentro de la plataforma; no instala cookies de terceros ni de seguimiento. Únicamente puede usar almacenamiento técnico de primera parte estrictamente necesario para mostrarte tu conversación, que está exento de consentimiento (art. 22.2 LSSI).
 
 ## 3. Tu consentimiento y cómo gestionarlo
 
 En tu primera visita te mostramos un **aviso de cookies** donde puedes:
 - **Aceptar todas** las cookies;
 - **Rechazarlas** (rechazar es tan fácil como aceptar); o
-- **Configurar** tu elección por categorías (las necesarias siempre están activas; las analíticas y las del chat las activas tú).
+- **Configurar** tu elección por categorías (las necesarias siempre están activas; las analíticas las activas tú).
 
 Las cookies no esenciales **no se activan hasta que prestas tu consentimiento**. Puedes **cambiar o retirar tu elección** en cualquier momento eliminando la cookie `gescuida_cc` o borrando las cookies desde la configuración de tu navegador; al volver a entrar, te preguntaremos de nuevo.
 
