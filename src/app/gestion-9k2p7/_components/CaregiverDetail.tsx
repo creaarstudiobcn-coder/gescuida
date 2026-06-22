@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { usePolling } from "@/components/usePolling";
 import { ChatThread } from "@/components/ChatThread";
 import { formatHourlyRange } from "@/lib/pricing";
 import { fmtDate } from "@/lib/format";
 import { Loading, ErrorCard } from "./ui";
+import { ConfirmDeleteDialog } from "./ConfirmDeleteDialog";
 import type { CaregiverDetail as Detail } from "./types";
 
 type Action = "VERIFY" | "UNVERIFY" | "SUSPEND" | "UNSUSPEND";
@@ -39,12 +41,36 @@ function Availability({ value }: { value: unknown }) {
 }
 
 export function CaregiverDetail({ id }: { id: string }) {
+  const router = useRouter();
   const { data, error, loading, refresh } = usePolling<Detail>(
     `/api/admin/caregivers/${id}`,
     15000
   );
   const [busy, setBusy] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
+
+  // Borrado permanente.
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  async function doDelete() {
+    setDeleting(true);
+    setDeleteError(null);
+    try {
+      const res = await fetch(`/api/admin/caregivers/${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const b = (await res.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(b?.error ?? `Error ${res.status}`);
+      }
+      // Cuenta borrada: volvemos a la lista de cuidadoras.
+      router.push("/gestion-9k2p7/cuidadoras");
+      router.refresh();
+    } catch (e) {
+      setDeleteError((e as Error).message);
+      setDeleting(false);
+    }
+  }
 
   async function doAction(action: Action) {
     setBusy(true);
@@ -181,6 +207,46 @@ export function CaregiverDetail({ id }: { id: string }) {
         )}
         {busy && <span className="self-center text-sm text-marino-400">Guardando…</span>}
       </div>
+
+      {/* Zona de peligro: borrado permanente */}
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3">
+        <div className="text-sm text-marino-600">
+          <p className="font-semibold text-red-700">Eliminar cuidadora</p>
+          <p>Borra la cuenta y todos sus datos. Sus turnos confirmados volverán a «pendiente». Permanente.</p>
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            setDeleteError(null);
+            setConfirmOpen(true);
+          }}
+          className="rounded-xl border border-red-300 bg-white px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100"
+        >
+          Eliminar
+        </button>
+      </div>
+
+      <ConfirmDeleteDialog
+        open={confirmOpen}
+        title="Eliminar cuidadora"
+        message={
+          <>
+            <p>
+              Vas a eliminar permanentemente a <strong>{c.name}</strong> ({c.email}). Esta acción es{" "}
+              <strong>irreversible</strong>.
+            </p>
+            <p>
+              Se borrarán su perfil, sus mensajes y su historial de respuestas a turnos. Sus turnos
+              en estado «confirmado» volverán a «pendiente» para poder reasignarlos.
+            </p>
+          </>
+        }
+        confirmWord={c.name}
+        busy={deleting}
+        error={deleteError}
+        onConfirm={doDelete}
+        onClose={() => setConfirmOpen(false)}
+      />
 
       {/* Chat directo admin ↔ cuidadora */}
       <div>
