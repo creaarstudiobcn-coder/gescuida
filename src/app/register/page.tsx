@@ -4,7 +4,7 @@ import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ZONAS_COBERTURA, ACCESS_PLANS, formatEuros } from "@/lib/pricing";
+import { ZONAS_COBERTURA, ZONA_OTRA_PROVINCIA, ACCESS_PLANS, formatEuros } from "@/lib/pricing";
 import { useRecaptcha } from "@/components/useRecaptcha";
 import { GoogleButton } from "@/components/GoogleButton";
 
@@ -22,6 +22,8 @@ function RegisterForm() {
   const [password, setPassword] = useState("");
   const [consent, setConsent] = useState(false);
   const [zones, setZones] = useState<string[]>([]);
+  const [otraProvincia, setOtraProvincia] = useState(false);
+  const [otraZona, setOtraZona] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { execute } = useRecaptcha();
@@ -42,7 +44,7 @@ function RegisterForm() {
     const res = await fetch("/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, phone, password, role, consentRGPD: consent, zones, recaptchaToken }),
+      body: JSON.stringify({ name, email, phone, password, role, consentRGPD: consent, zones, otraZona: otraProvincia ? otraZona : "", recaptchaToken }),
     });
     const data = await res.json();
     if (!res.ok) {
@@ -184,7 +186,35 @@ function RegisterForm() {
                     {z}
                   </button>
                 ))}
+                <button
+                  type="button"
+                  onClick={() => setOtraProvincia((v) => !v)}
+                  aria-pressed={otraProvincia}
+                  className={`badge border ${
+                    otraProvincia
+                      ? "border-salvia-500 bg-salvia-100 text-salvia-700"
+                      : "border-marino-200 text-marino-500"
+                  }`}
+                >
+                  {ZONA_OTRA_PROVINCIA}
+                </button>
               </div>
+              {otraProvincia && (
+                <div className="mt-3">
+                  <label className="label" htmlFor="otraZona">
+                    ¿En qué ciudad o provincia?
+                  </label>
+                  <input
+                    id="otraZona"
+                    type="text"
+                    maxLength={120}
+                    className="input"
+                    placeholder="Ej. Valencia, Sevilla capital…"
+                    value={otraZona}
+                    onChange={(e) => setOtraZona(e.target.value)}
+                  />
+                </div>
+              )}
             </fieldset>
           )}
 

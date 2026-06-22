@@ -29,6 +29,7 @@ export interface AvailableResponse {
 export interface CuidadoraProfile {
   name: string;
   zones: string[];
+  otraZona: string;
   bio: string;
   training: string;
   photoUrl: string;

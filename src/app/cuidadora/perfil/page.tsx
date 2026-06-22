@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ZONAS_COBERTURA } from "@/lib/pricing";
+import { ZONAS_COBERTURA, ZONA_OTRA_PROVINCIA } from "@/lib/pricing";
 import { Loading, ErrorCard, Notice } from "../_components/Feedback";
 import { type Availability, type CuidadoraProfile } from "../_components/types";
 
@@ -33,6 +33,8 @@ export default function PerfilPage() {
 
   // Estado del formulario.
   const [zones, setZones] = useState<string[]>([]);
+  const [otraProvincia, setOtraProvincia] = useState(false);
+  const [otraZona, setOtraZona] = useState("");
   const [bio, setBio] = useState("");
   const [training, setTraining] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
@@ -53,6 +55,8 @@ export default function PerfilPage() {
         if (!active) return;
         setProfile(p);
         setZones(p.zones ?? []);
+        setOtraZona(p.otraZona ?? "");
+        setOtraProvincia(Boolean(p.otraZona));
         setBio(p.bio ?? "");
         setTraining(p.training ?? "");
         setPhotoUrl(p.photoUrl ?? "");
@@ -98,6 +102,7 @@ export default function PerfilPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           zones,
+          otraZona: otraProvincia ? otraZona : "",
           bio,
           training,
           photoUrl,
@@ -188,8 +193,36 @@ export default function PerfilPage() {
               </button>
             );
           })}
+          <button
+            type="button"
+            onClick={() => setOtraProvincia((v) => !v)}
+            aria-pressed={otraProvincia}
+            className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${
+              otraProvincia
+                ? "border-salvia-500 bg-salvia-500 text-white"
+                : "border-marino-200 bg-white text-marino-600 hover:border-salvia-400"
+            }`}
+          >
+            {ZONA_OTRA_PROVINCIA}
+          </button>
         </div>
-        {zones.length === 0 && (
+        {otraProvincia && (
+          <div className="space-y-1">
+            <label htmlFor="otraZona" className="label">
+              ¿En qué ciudad o provincia?
+            </label>
+            <input
+              id="otraZona"
+              type="text"
+              maxLength={120}
+              className="input"
+              placeholder="Ej. Valencia, Sevilla capital…"
+              value={otraZona}
+              onChange={(e) => setOtraZona(e.target.value)}
+            />
+          </div>
+        )}
+        {zones.length === 0 && !otraProvincia && (
           <p className="text-sm text-calido-600">Elige al menos un municipio para recibir turnos.</p>
         )}
       </div>

@@ -14,6 +14,7 @@ const schema = z.object({
     errorMap: () => ({ message: "Debes aceptar el tratamiento de datos (RGPD)" }),
   }),
   zones: z.array(z.string()).optional(), // solo cuidadora
+  otraZona: z.string().max(120).optional(), // solo cuidadora: texto libre otra provincia
   recaptchaToken: z.string().optional(),
 });
 
@@ -32,7 +33,7 @@ export async function POST(req: Request) {
       { status: 400 }
     );
   }
-  const { name, email, password, phone, role, zones } = parsed.data;
+  const { name, email, password, phone, role, zones, otraZona } = parsed.data;
 
   // Anti-bot: reCAPTCHA v3 (invisible). Si no está configurado, no bloquea.
   const rc = await verifyRecaptcha(parsed.data.recaptchaToken, "register");
@@ -65,6 +66,7 @@ export async function POST(req: Request) {
             caregiverProfile: {
               create: {
                 zones: zones ?? [],
+                otraZona: otraZona?.trim() || null,
                 verified: false,
               },
             },

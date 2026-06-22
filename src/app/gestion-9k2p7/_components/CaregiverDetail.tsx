@@ -134,6 +134,11 @@ export function CaregiverDetail({ id }: { id: string }) {
         <Field label="Municipios">
           {c.zones.length > 0 ? c.zones.join(", ") : <span className="text-marino-400">Ninguno</span>}
         </Field>
+        {c.otraZona && (
+          <Field label="Otra provincia">
+            <span className="text-calido-700">{c.otraZona}</span>
+          </Field>
+        )}
         <Field label="Verificada el">
           {c.verifiedAt ? fmtDate(c.verifiedAt) : <span className="text-marino-400">—</span>}
         </Field>

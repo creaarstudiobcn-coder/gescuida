@@ -14,6 +14,7 @@ export async function GET() {
   return NextResponse.json({
     name: user.name,
     zones: profile?.zones ?? [],
+    otraZona: profile?.otraZona ?? "",
     bio: profile?.bio ?? "",
     training: profile?.training ?? "",
     photoUrl: profile?.photoUrl ?? "",
@@ -32,6 +33,7 @@ const rateField = z.coerce.number().min(0).max(500).nullable().optional();
 const schema = z
   .object({
     zones: z.array(z.string()).optional(),
+    otraZona: z.string().max(120).optional(),
     bio: z.string().max(500).optional(),
     training: z.string().max(500).optional(),
     photoUrl: z.string().url().optional().or(z.literal("")),
@@ -64,6 +66,7 @@ export async function PUT(req: Request) {
     where: { userId: user.id },
     update: {
       ...(d.zones ? { zones: d.zones } : {}),
+      ...(d.otraZona !== undefined ? { otraZona: d.otraZona.trim() || null } : {}),
       ...(d.bio !== undefined ? { bio: d.bio } : {}),
       ...(d.training !== undefined ? { training: d.training } : {}),
       ...(d.photoUrl !== undefined ? { photoUrl: d.photoUrl || null } : {}),
@@ -74,6 +77,7 @@ export async function PUT(req: Request) {
     create: {
       userId: user.id,
       zones: d.zones ?? [],
+      otraZona: d.otraZona?.trim() || null,
       bio: d.bio,
       training: d.training,
       photoUrl: d.photoUrl || null,

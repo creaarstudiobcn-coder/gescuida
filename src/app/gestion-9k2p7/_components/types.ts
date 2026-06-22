@@ -71,6 +71,7 @@ export interface CaregiverDetail {
   verifiedAt: string | null;
   suspended: boolean;
   zones: string[];
+  otraZona: string | null;
   bio: string | null;
   training: string | null;
   photoUrl: string | null;

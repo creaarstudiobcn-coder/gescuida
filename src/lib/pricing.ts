@@ -155,3 +155,9 @@ export const ZONAS_COBERTURA = [
   // Anoia
   "Igualada",
 ];
+
+// Opción adicional (solo para cuidadoras) para inscribirse desde fuera de las zonas
+// de cobertura locales: al elegirla, la cuidadora escribe su ciudad/provincia en texto
+// libre (campo `otraZona`). NO forma parte de ZONAS_COBERTURA para no afectar al SEO
+// local, al sitemap ni al selector de zonas de las familias.
+export const ZONA_OTRA_PROVINCIA = "Otra provincia de España";

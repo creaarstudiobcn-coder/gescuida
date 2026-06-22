@@ -143,6 +143,7 @@ model CaregiverProfile {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   zones        String[] // municipios donde trabaja (Mataró, Argentona, Premià…)
+  otraZona     String? // texto libre si trabaja en otra provincia de España (Valencia, Sevilla…)
   availability Json? // disponibilidad semanal { lun: ["09:00-13:00"], ... }
   bio          String?
   training     String? // formación / titulación

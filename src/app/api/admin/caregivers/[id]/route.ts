@@ -33,6 +33,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     verifiedAt: p?.verifiedAt ?? null,
     suspended: p?.suspended ?? false,
     zones: p?.zones ?? [],
+    otraZona: p?.otraZona ?? null,
     bio: p?.bio ?? null,
     training: p?.training ?? null,
     photoUrl: p?.photoUrl ?? null,
