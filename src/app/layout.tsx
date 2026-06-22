@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { CookieConsent } from "@/components/CookieConsent";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { ChatWidget } from "@/components/ChatWidget";
+import { SiteFooter } from "@/components/SiteFooter";
 import "./globals.css";
 
 // Tipografía de marca: Plus Jakarta Sans (800 logotipo/títulos, 600 subtítulos).
@@ -38,6 +39,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es" className={jakarta.variable}>
       <body className="min-h-dvh">
         {children}
+        {/* Footer global, al final del layout y fuera del contenido de cada página.
+            SiteFooter decide según la ruta: solo se muestra en páginas públicas y se
+            oculta en zonas privadas (paneles) y pantallas de autenticación. */}
+        <SiteFooter />
         <CookieConsent />
         <GoogleAnalytics />
         <ChatWidget />

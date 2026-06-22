@@ -171,37 +171,6 @@ export default function HomePage() {
 
       {/* Zonas donde operamos (SEO local + enlaces internos) */}
       <ZonasLinks />
-
-      {/* Footer */}
-      <footer className="mt-16 rounded-2xl bg-marino-900 px-6 py-8 text-center text-sm text-salvia-100">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/brand/gescuida-logo-horizontal-oscuro.svg"
-          alt="GesCuida"
-          width={160}
-          height={45}
-          className="mx-auto h-10 w-auto sm:h-11"
-        />
-        <p className="mt-3">Mataró i el Maresme</p>
-        <nav className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-          <Link href="/terminos" className="underline hover:text-white">
-            Términos y Condiciones
-          </Link>
-          <Link href="/privacidad" className="underline hover:text-white">
-            Política de Privacidad
-          </Link>
-          <Link href="/cookies" className="underline hover:text-white">
-            Cookies
-          </Link>
-          <Link href="/aviso-legal" className="underline hover:text-white">
-            Aviso Legal
-          </Link>
-        </nav>
-        <p className="mt-4 text-xs text-salvia-200/80">
-          GesCuida es una marca de Dependalium Global Services, S.L. · Plataforma de conexión; no
-          emplea a las cuidadoras ni presta el servicio de cuidado.
-        </p>
-      </footer>
     </main>
   );
 }
