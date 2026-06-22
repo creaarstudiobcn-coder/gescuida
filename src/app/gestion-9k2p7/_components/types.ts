@@ -60,6 +60,46 @@ export interface CaregiverAdmin {
   shiftsCount: number;
 }
 
+export interface FamilyAdmin {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  createdAt: string;
+  subscriptionStatus: "ACTIVE" | "PAST_DUE" | "NONE";
+  planName: string | null;
+  recipientsCount: number;
+  shiftsCount: number;
+}
+
+export interface FamilyRecipient {
+  id: string;
+  name: string;
+  age: number | null;
+  zone: string;
+  address: string | null; // descifrado solo para el admin
+  needs: string | null; // descifrado solo para el admin
+  notes: string | null; // descifrado solo para el admin
+  shiftsCount: number;
+}
+
+export interface FamilyDetail {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  createdAt: string;
+  subscriptionStatus: "ACTIVE" | "PAST_DUE" | "NONE";
+  planName: string | null;
+  contactsUsed: number;
+  contactLimit: number;
+  periodEnd: string | null;
+  hasStripeSubscription: boolean; // tiene una suscripción de Stripe que se cancelará al borrar
+  recipients: FamilyRecipient[];
+  shiftsCount: number;
+  paymentsCount: number;
+}
+
 export interface CaregiverDetail {
   id: string;
   name: string;
