@@ -45,6 +45,45 @@ export default function PerfilPage() {
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState<{ tone: "success" | "error"; msg: string } | null>(null);
 
+  // Subida de la foto de perfil.
+  const [uploading, setUploading] = useState(false);
+  const [photoError, setPhotoError] = useState<string | null>(null);
+
+  const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+  const MAX_PHOTO_BYTES = 5 * 1024 * 1024; // 5 MB
+
+  async function onPhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // permite volver a elegir el mismo archivo si hace falta
+    if (!file) return;
+
+    setPhotoError(null);
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      setPhotoError("Formato no válido. Usa una imagen JPG, PNG o WEBP.");
+      return;
+    }
+    if (file.size > MAX_PHOTO_BYTES) {
+      setPhotoError("La imagen es demasiado grande (máximo 5 MB).");
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const body = new FormData();
+      body.append("file", file);
+      const res = await fetch("/api/cuidadora/avatar", { method: "POST", body });
+      const json = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
+      if (!res.ok || !json.url) {
+        throw new Error(json.error ?? "No se ha podido subir la imagen.");
+      }
+      setPhotoUrl(json.url); // se persistirá al pulsar «Guardar»
+    } catch (err) {
+      setPhotoError((err as Error).message);
+    } finally {
+      setUploading(false);
+    }
+  }
+
   useEffect(() => {
     let active = true;
     (async () => {
@@ -229,25 +268,44 @@ export default function PerfilPage() {
 
       {/* Foto */}
       <div className="card space-y-2">
-        <label htmlFor="photoUrl" className="label">
-          Foto de perfil (URL)
-        </label>
-        <input
-          id="photoUrl"
-          type="url"
-          inputMode="url"
-          className="input"
-          placeholder="https://…"
-          value={photoUrl}
-          onChange={(e) => setPhotoUrl(e.target.value)}
-        />
-        {photoUrl && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={photoUrl}
-            alt="Vista previa de tu foto de perfil"
-            className="mt-2 h-24 w-24 rounded-full object-cover ring-2 ring-salvia-200"
-          />
+        <span className="label">Foto de perfil</span>
+        <div className="flex items-center gap-4">
+          {photoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={photoUrl}
+              alt="Vista previa de tu foto de perfil"
+              className="h-24 w-24 shrink-0 rounded-full object-cover ring-2 ring-salvia-200"
+            />
+          ) : (
+            <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-salvia-100 text-3xl ring-2 ring-salvia-200">
+              🙂
+            </div>
+          )}
+          <div className="space-y-1">
+            <label
+              htmlFor="photoFile"
+              className={`btn-secondary inline-block cursor-pointer px-4 py-2 text-sm ${
+                uploading ? "pointer-events-none opacity-60" : ""
+              }`}
+            >
+              {uploading ? "Subiendo…" : photoUrl ? "Cambiar foto" : "Subir foto"}
+            </label>
+            <input
+              id="photoFile"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              className="hidden"
+              onChange={onPhotoChange}
+              disabled={uploading}
+            />
+            <p className="text-xs text-marino-400">JPG, PNG o WEBP · máx. 5 MB</p>
+          </div>
+        </div>
+        {photoError && (
+          <p className="text-sm text-calido-600" role="alert">
+            {photoError}
+          </p>
         )}
       </div>
 
