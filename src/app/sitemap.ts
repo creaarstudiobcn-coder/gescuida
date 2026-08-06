@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { pueblosSlugs } from "@/lib/pueblos";
+import { POBLES_CA_SLUGS } from "@/lib/pueblos-ca";
 
 // Dominio base de producción (Search Console usará estas URLs).
 const BASE = "https://gescuida.es";
@@ -18,10 +19,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  // Prueba en catalán: los siete municipios con demanda real. Ver lib/pueblos-ca.ts.
+  const zonesCa: MetadataRoute.Sitemap = POBLES_CA_SLUGS.map((slug) => ({
+    url: `${BASE}/ca/cuidadors/${slug}`,
+    lastModified,
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
   return [
     { url: `${BASE}/`, lastModified, changeFrequency: "weekly", priority: 1 },
     { url: `${BASE}/register`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     ...zonas,
+    ...zonesCa,
     { url: `${BASE}/login`, lastModified, changeFrequency: "monthly", priority: 0.5 },
     { url: `${BASE}/terminos`, lastModified, changeFrequency: "yearly", priority: 0.3 },
     { url: `${BASE}/privacidad`, lastModified, changeFrequency: "yearly", priority: 0.3 },

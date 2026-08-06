@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatHourlyRange } from "@/lib/pricing";
 import { getPueblo, pueblosSlugs } from "@/lib/pueblos";
+import { POBLES_CA_SLUGS } from "@/lib/pueblos-ca";
 import { ZonasLinks } from "@/components/ZonasLinks";
 
 const BASE = "https://gescuida.es";
@@ -25,10 +26,17 @@ export async function generateMetadata({
   const p = getPueblo(pueblo);
   if (!p) return {};
   const url = `${BASE}/cuidadoras/${p.slug}`;
+  /* Solo los siete municipios de la prueba en catalán tienen pareja. El
+     hreflang tiene que declararlo también este lado o Google lo ignora; y
+     apuntar a una página que no existe es peor que no ponerlo. */
+  const tieneCa = (POBLES_CA_SLUGS as readonly string[]).includes(p.slug);
   return {
     title: p.seoTitle,
     description: p.seoDescription,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      languages: tieneCa ? { es: url, ca: `${BASE}/ca/cuidadors/${p.slug}` } : undefined,
+    },
     openGraph: {
       title: p.seoTitle,
       description: p.seoDescription,
