@@ -7,7 +7,7 @@ import { getPueblo, pueblosSlugs } from "@/lib/pueblos";
 import { POBLES_CA_SLUGS } from "@/lib/pueblos-ca";
 import { ZonasLinks } from "@/components/ZonasLinks";
 
-const BASE = "https://gescuida.es";
+const BASE = "https://www.gescuida.es"; // con www: ver el comentario de layout.tsx
 
 // Páginas estáticas (ISR): se generan en build y se refrescan cada hora para que el listado
 // de cuidadoras se mantenga al día sin reconstruir todo el sitio.

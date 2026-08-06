@@ -125,7 +125,7 @@ export async function POST(req: Request) {
   // Aviso por email al admin SOLO si no está conectado y no había mensajes pendientes.
   const online = await isAdminOnline();
   if (!online && pendingBefore === 0) {
-    const base = process.env.NEXT_PUBLIC_APP_URL?.trim() || "https://gescuida.es";
+    const base = process.env.NEXT_PUBLIC_APP_URL?.trim() || "https://www.gescuida.es";
     const preview = body.length > 200 ? `${body.slice(0, 200)}…` : body;
     const tos = await adminEmails();
     await Promise.all(

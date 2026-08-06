@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE = "https://gescuida.es";
+const BASE = "https://www.gescuida.es"; // con www: es el host canónico real
 
 // Permite rastrear las páginas públicas y bloquea las áreas privadas (paneles + API).
 // NOTA: la ruta del panel de administración NO se lista aquí a propósito. robots.txt es

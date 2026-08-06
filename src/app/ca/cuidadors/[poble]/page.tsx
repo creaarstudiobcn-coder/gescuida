@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { formatHourlyRange } from "@/lib/pricing";
 import { getPobleCa, POBLES_CA_SLUGS } from "@/lib/pueblos-ca";
 
-const BASE = "https://gescuida.es";
+const BASE = "https://www.gescuida.es"; // con www: ver el comentario de layout.tsx
 
 /**
  * Versión en catalán de /cuidadoras/[pueblo], para los siete municipios que

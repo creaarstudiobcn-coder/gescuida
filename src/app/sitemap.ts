@@ -3,7 +3,7 @@ import { pueblosSlugs } from "@/lib/pueblos";
 import { POBLES_CA_SLUGS } from "@/lib/pueblos-ca";
 
 // Dominio base de producción (Search Console usará estas URLs).
-const BASE = "https://gescuida.es";
+const BASE = "https://www.gescuida.es"; // con www: el ápex redirige y Google indexa www
 
 // Solo páginas PÚBLICAS e indexables. NO se incluyen los paneles privados
 // (familia, cuidadora ni el panel de administración) ni la API. Las páginas legales,

@@ -140,7 +140,7 @@ export async function POST(req: Request) {
     });
 
     if (shouldEmail) {
-      const base = process.env.NEXT_PUBLIC_APP_URL?.trim() || "https://gescuida.es";
+      const base = process.env.NEXT_PUBLIC_APP_URL?.trim() || "https://www.gescuida.es";
       // No bloqueamos la respuesta por un fallo de email; queda registrado en lib/email.
       await sendNewMessageEmail(other.email, other.name, `${base}/cuidadora/mensajes`);
     }

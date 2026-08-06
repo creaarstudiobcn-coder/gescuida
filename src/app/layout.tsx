@@ -15,7 +15,11 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gescuida.es"),
+  /* El canónico del sitio es CON www: el ápex devuelve un 308 a www y Google ya
+     tiene todo indexado ahí (comprobado con la API de inspección el 6/8/2026).
+     Con el ápex aquí, cada canonical y cada og:url apuntaban a una URL que
+     vuelve a redirigir. */
+  metadataBase: new URL("https://www.gescuida.es"),
   title: "GesCuida — Encuentra cuidadora de confianza en Mataró y el Maresme",
   description:
     "Plataforma de conexión con cuidadoras profesionales e independientes en Mataró y el Maresme. Tú eliges, contactas y acuerdas el cuidado directamente con ellas.",
