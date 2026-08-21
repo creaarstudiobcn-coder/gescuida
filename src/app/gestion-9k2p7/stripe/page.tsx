@@ -31,6 +31,7 @@ export default function StripeDiagnosticoPage() {
   }, [cargar]);
 
   const criticos = data?.hallazgos.filter((h) => h.nivel === "critico") ?? [];
+  const ivaPendiente = data?.precios.some((p) => p.encontrado && p.impuesto !== "inclusive") ?? false;
 
   return (
     <div className="space-y-6">
@@ -77,6 +78,8 @@ export default function StripeDiagnosticoPage() {
               <HallazgoFila key={i} h={h} />
             ))}
           </section>
+
+          {ivaPendiente && <FijarIva onHecho={cargar} />}
 
           <section className="space-y-2">
             <h2 className="text-lg font-bold text-marino-800">Precios de los planes</h2>
@@ -182,6 +185,77 @@ function Dato({ k, v }: { k: string; v: string }) {
     <div className="flex justify-between gap-3">
       <dt className="text-marino-400">{k}</dt>
       <dd className="font-semibold">{v}</dd>
+    </div>
+  );
+}
+
+// Fija el IVA incluido en los dos precios. Confirmación en dos pasos y sin diálogos del
+// navegador: es un cambio que Stripe NO deja deshacer.
+function FijarIva({ onHecho }: { onHecho: () => void }) {
+  const [paso, setPaso] = useState<"inicio" | "confirmar" | "enviando">("inicio");
+  const [resultados, setResultados] = useState<
+    { plan: string; nombre: string; ok: boolean; mensaje: string }[] | null
+  >(null);
+  const [error, setError] = useState<string | null>(null);
+
+  async function aplicar() {
+    setPaso("enviando");
+    try {
+      const res = await fetch("/api/admin/stripe/iva", { method: "POST" });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? `Error ${res.status}`);
+      setResultados(json.resultados);
+      onHecho();
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setPaso("inicio");
+    }
+  }
+
+  if (resultados) {
+    return (
+      <div className="card border-salvia-300 bg-salvia-50 text-sm text-salvia-700">
+        <p className="font-bold">IVA incluido</p>
+        <ul className="mt-2 space-y-1">
+          {resultados.map((r) => (
+            <li key={r.plan}>
+              {r.ok ? "✅" : "⛔"} <strong>{r.nombre}</strong>: {r.mensaje}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
+  return (
+    <div className="card border-marino-200 text-sm">
+      <p className="font-bold text-marino-800">Dejar el IVA dentro del precio</p>
+      <p className="mt-1 text-marino-600">
+        Pone <code>tax_behavior: inclusive</code> en los dos precios. No cambia lo que se cobra hoy;
+        evita que, si algún día se activa Stripe Tax, el impuesto se sume por encima del precio
+        anunciado. <strong>Stripe solo permite hacerlo una vez y no tiene vuelta atrás.</strong>
+      </p>
+      {error && <p className="mt-2 font-semibold text-calido-700">{error}</p>}
+      {paso === "confirmar" ? (
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button type="button" onClick={aplicar} className="btn-primary">
+            Sí, fijarlo ahora
+          </button>
+          <button type="button" onClick={() => setPaso("inicio")} className="btn-secondary">
+            Mejor no
+          </button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setPaso("confirmar")}
+          disabled={paso === "enviando"}
+          className="btn-secondary mt-3"
+        >
+          {paso === "enviando" ? "Aplicando…" : "Fijar IVA incluido"}
+        </button>
+      )}
     </div>
   );
 }
