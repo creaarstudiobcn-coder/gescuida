@@ -16,6 +16,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
     { href: "/gestion-9k2p7/familias", label: "Familias", icon: "👨‍👩‍👧" },
     { href: "/gestion-9k2p7/cuidadoras", label: "Cuidadoras", icon: "🤝" },
     { href: "/gestion-9k2p7/chat", label: "Chat", icon: "💬" },
+    { href: "/gestion-9k2p7/stripe", label: "Pagos", icon: "💳" },
   ];
   return (
     <DashboardShell title="Administración" userName={user.name ?? ""} nav={nav}>
