@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { SITE_URL } from "@/lib/site-url";
 import { z } from "zod";
 import { apiAuth } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
@@ -140,7 +141,7 @@ export async function POST(req: Request) {
     });
 
     if (shouldEmail) {
-      const base = process.env.NEXT_PUBLIC_APP_URL?.trim() || "https://www.gescuida.es";
+      const base = SITE_URL;
       // No bloqueamos la respuesta por un fallo de email; queda registrado en lib/email.
       await sendNewMessageEmail(other.email, other.name, `${base}/cuidadora/mensajes`);
     }

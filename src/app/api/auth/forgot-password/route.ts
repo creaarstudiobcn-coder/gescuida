@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { SITE_URL, normalizarSiteUrl } from "@/lib/site-url";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { verifyRecaptcha } from "@/lib/recaptcha";
@@ -56,12 +57,11 @@ export async function POST(req: Request) {
       data: { userId: user.id, tokenHash, expiresAt: resetTokenExpiry() },
     });
 
-    // Construimos el enlace con el origen real de la petición (respeta www / dominio actual);
-    // si no estuviera disponible, usamos NEXT_PUBLIC_APP_URL.
-    const origin =
-      req.headers.get("origin") ||
-      process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ||
-      "http://localhost:3000";
+    // Construimos el enlace con el origen real de la petición (respeta el dominio actual);
+    // si no estuviera disponible, el host canónico. En ambos casos normalizado a www,
+    // porque el ápex responde con un 308 y el enlace de un correo no debe rebotar.
+    const cabecera = req.headers.get("origin");
+    const origin = cabecera ? normalizarSiteUrl(cabecera) : SITE_URL;
     const resetUrl = `${origin}/restablecer/${token}`;
 
     await sendPasswordResetEmail(user.email, resetUrl);

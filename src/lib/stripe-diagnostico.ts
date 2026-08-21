@@ -1,5 +1,6 @@
 import type Stripe from "stripe";
 import { stripe, APP_URL } from "@/lib/stripe";
+import { normalizarSiteUrl } from "@/lib/site-url";
 import { ACCESS_PLANS, type AccessPlanKey } from "@/lib/pricing";
 import { priceIdForPlan } from "@/lib/stripe-helpers";
 
@@ -135,10 +136,19 @@ export async function diagnosticarStripe(): Promise<StripeDiagnostico> {
     });
   }
 
-  if (!APP_URL.startsWith(hostEsperado)) {
+  // APP_URL ya viene normalizado a www por `site-url`. Lo que interesa saber es si la
+  // variable de entorno sigue mal puesta, porque entonces cualquier código nuevo que la
+  // lea directamente volvería a construir enlaces al ápex, que responde con un 308.
+  const envBruta = process.env.NEXT_PUBLIC_APP_URL?.trim();
+  if (envBruta && normalizarSiteUrl(envBruta) !== envBruta.replace(/\/+$/, "")) {
     hallazgos.push({
       nivel: "aviso",
-      texto: `NEXT_PUBLIC_APP_URL es «${APP_URL}»; se esperaba ${hostEsperado} (es el host que Google tiene indexado y el que usan success_url y los enlaces de los correos).`,
+      texto: `NEXT_PUBLIC_APP_URL vale «${envBruta}» (el ápex). El código lo corrige a ${APP_URL}, así que los enlaces salen bien, pero conviene arreglar la variable en Vercel para que nadie que la lea directamente vuelva a apuntar a una URL que redirige.`,
+    });
+  } else if (!APP_URL.startsWith(hostEsperado)) {
+    hallazgos.push({
+      nivel: "aviso",
+      texto: `Los enlaces se construyen sobre «${APP_URL}»; se esperaba ${hostEsperado}, que es el host que Google tiene indexado.`,
     });
   }
 
@@ -223,10 +233,13 @@ export async function diagnosticarStripe(): Promise<StripeDiagnostico> {
           texto: `El ${ACCESS_PLANS[plan].name} se anuncia a ${(importeWebCents / 100).toFixed(2)} € en la web pero Stripe cobra ${(price.unit_amount / 100).toFixed(2)} €.`,
         });
       }
+      // El checkout NO activa `automatic_tax`, así que hoy Stripe cobra el importe exacto
+      // y nadie paga de más. El riesgo es futuro: el día que se encienda Stripe Tax, un
+      // precio «unspecified» se trata como SIN IVA y el impuesto se sumaría por encima.
       if (price.tax_behavior !== "inclusive") {
         hallazgos.push({
           nivel: "aviso",
-          texto: `El precio del ${ACCESS_PLANS[plan].name} tiene tax_behavior «${price.tax_behavior ?? "sin definir"}». Si la web enseña el precio con IVA incluido, Stripe puede sumar el impuesto por encima y el cliente pagaría más de lo que vio.`,
+          texto: `El precio del ${ACCESS_PLANS[plan].name} tiene tax_behavior «${price.tax_behavior ?? "sin definir"}». Hoy no cobra de más a nadie porque el checkout no usa automatic_tax, pero si algún día se activa Stripe Tax, ese precio se tomaría como base imponible y el IVA se sumaría por encima de los ${(importeWebCents / 100).toFixed(2)} € anunciados. Se puede fijar a «inclusive» UNA vez desde el panel de Stripe.`,
         });
       }
     } catch (e) {

@@ -16,4 +16,5 @@ export function assertStripe(): Stripe {
   return stripe;
 }
 
-export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+// Reexportado desde site-url para que el success_url del checkout nazca ya en www.
+export { SITE_URL as APP_URL } from "@/lib/site-url";

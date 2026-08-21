@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { SITE_URL } from "@/lib/site-url";
 import { cookies } from "next/headers";
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
@@ -125,7 +126,7 @@ export async function POST(req: Request) {
   // Aviso por email al admin SOLO si no está conectado y no había mensajes pendientes.
   const online = await isAdminOnline();
   if (!online && pendingBefore === 0) {
-    const base = process.env.NEXT_PUBLIC_APP_URL?.trim() || "https://www.gescuida.es";
+    const base = SITE_URL;
     const preview = body.length > 200 ? `${body.slice(0, 200)}…` : body;
     const tos = await adminEmails();
     await Promise.all(
@@ -142,7 +143,7 @@ export async function POST(req: Request) {
 
   const res = NextResponse.json({ ok: true, online }, { status: 201 });
   if (newToken) {
-    const secure = (process.env.NEXT_PUBLIC_APP_URL ?? "").startsWith("https");
+    const secure = SITE_URL.startsWith("https");
     res.cookies.set(CHAT_COOKIE, newToken, {
       httpOnly: true,
       sameSite: "lax",
