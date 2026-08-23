@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatHourlyRange } from "@/lib/pricing";
 import { getPueblo, pueblosSlugs } from "@/lib/pueblos";
 import { POBLES_CA_SLUGS } from "@/lib/pueblos-ca";
 import { ZonasLinks } from "@/components/ZonasLinks";
+import { fotoParaMunicipio } from "@/lib/fotos";
 
 const BASE = "https://www.gescuida.es"; // con www: ver el comentario de layout.tsx
 
@@ -80,6 +82,10 @@ export default async function CuidadorasPuebloPage({
   if (!p) notFound();
 
   const cuidadoras = await caregiversIn(p.name);
+  // Cada municipio recibe siempre la misma foto (reparto estable por su slug),
+  // pero pueblos distintos enseñan fotos distintas: así las 33 páginas que salen
+  // de esta misma plantilla no se ven todas iguales.
+  const foto = fotoParaMunicipio(p.slug);
 
   // Datos estructurados Schema.org (Service + área servida). Solo datos reales.
   const jsonLd = {
@@ -141,27 +147,39 @@ export default async function CuidadorasPuebloPage({
       </p>
 
       {/* Hero */}
-      <section className="mt-3 rounded-3xl bg-gradient-to-br from-marino-800 to-calido-600 px-6 py-12 text-white shadow-lg">
-        <span className="badge bg-white/15 text-salvia-50">
-          {p.regionLabel ?? `${p.comarca ?? "Maresme"} · ${p.geo === "costero" ? "costa" : "interior"}`}
-        </span>
-        <h1 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight sm:text-4xl">
-          Cuidadora de mayores en {p.name}
-        </h1>
-        <p className="mt-4 max-w-2xl text-lg text-salvia-50">{p.hero}</p>
-        <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-          <Link
-            href="/register?role=FAMILIA"
-            className="btn-primary bg-white text-marino-800 hover:bg-salvia-50 text-lg"
-          >
-            Soy una familia
-          </Link>
-          <Link
-            href="/register?role=CUIDADORA"
-            className="btn-secondary border-white bg-transparent text-white hover:bg-white/10 text-lg"
-          >
-            Soy cuidadora
-          </Link>
+      <section className="mt-3 overflow-hidden rounded-3xl bg-gradient-to-br from-marino-800 to-calido-600 text-white shadow-lg">
+        <div className="grid items-center lg:grid-cols-[1.1fr_1fr]">
+          <div className="px-6 py-12 lg:pl-10 lg:pr-4">
+            <span className="badge bg-white/15 text-salvia-50">
+              {p.regionLabel ?? `${p.comarca ?? "Maresme"} · ${p.geo === "costero" ? "costa" : "interior"}`}
+            </span>
+            <h1 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight sm:text-4xl">
+              Cuidadora de mayores en {p.name}
+            </h1>
+            <p className="mt-4 max-w-2xl text-lg text-salvia-50">{p.hero}</p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/register?role=FAMILIA"
+                className="btn-primary bg-white text-marino-800 hover:bg-salvia-50 text-lg"
+              >
+                Soy una familia
+              </Link>
+              <Link
+                href="/register?role=CUIDADORA"
+                className="btn-secondary border-white bg-transparent text-white hover:bg-white/10 text-lg"
+              >
+                Soy cuidadora
+              </Link>
+            </div>
+          </div>
+          {/* El alt nombra el municipio: es la única imagen grande de una página local. */}
+          <Image
+            src={foto.src}
+            alt={`${foto.alt} — cuidado de mayores a domicilio en ${p.name}`}
+            priority
+            sizes="(min-width: 1024px) 45vw, 100vw"
+            className="h-56 w-full object-cover sm:h-72 lg:h-full lg:min-h-[24rem]"
+          />
         </div>
       </section>
 

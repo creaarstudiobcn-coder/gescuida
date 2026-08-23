@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ACCESS_PLANS, formatEuros } from "@/lib/pricing";
+import { FOTO_PORTADA, FOTO_CONFIANZA } from "@/lib/fotos";
 import { ZonasLinks } from "@/components/ZonasLinks";
 import { CuidadorasProceso } from "@/components/CuidadorasProceso";
 
@@ -55,25 +57,37 @@ export default function HomePage() {
         </nav>
       </header>
 
-      {/* Hero */}
-      <section className="rounded-3xl bg-gradient-to-br from-marino-800 to-calido-600 px-6 py-14 text-center text-white shadow-lg">
-        <h1 className="mx-auto max-w-3xl text-4xl font-extrabold leading-tight sm:text-5xl">
-          Encuentra cuidadora de confianza en Mataró y el Maresme
-        </h1>
-        <p className="mx-auto mt-5 max-w-2xl text-lg text-salvia-50">
-          Te conectamos con cuidadoras profesionales e independientes. Tú eliges, contactas y
-          acuerdas el cuidado directamente con ellas.
-        </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link href="/register?role=FAMILIA" className="btn-primary bg-white text-marino-800 hover:bg-salvia-50 text-lg">
-            Soy una familia
-          </Link>
-          <Link
-            href="/register?role=CUIDADORA"
-            className="btn-secondary border-white bg-transparent text-white hover:bg-white/10 text-lg"
-          >
-            Soy cuidadora
-          </Link>
+      {/* Hero. En móvil la foto va debajo del texto; en pantalla ancha, al lado. */}
+      <section className="overflow-hidden rounded-3xl bg-gradient-to-br from-marino-800 to-calido-600 text-white shadow-lg">
+        <div className="grid items-center gap-0 lg:grid-cols-[1.05fr_1fr]">
+          <div className="px-6 py-12 text-center lg:py-14 lg:pl-10 lg:pr-4 lg:text-left">
+            <h1 className="mx-auto max-w-3xl text-4xl font-extrabold leading-tight sm:text-5xl lg:mx-0">
+              Encuentra cuidadora de confianza en Mataró y el Maresme
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-lg text-salvia-50 lg:mx-0">
+              Te conectamos con cuidadoras profesionales e independientes. Tú eliges, contactas y
+              acuerdas el cuidado directamente con ellas.
+            </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+              <Link href="/register?role=FAMILIA" className="btn-primary bg-white text-marino-800 hover:bg-salvia-50 text-lg">
+                Soy una familia
+              </Link>
+              <Link
+                href="/register?role=CUIDADORA"
+                className="btn-secondary border-white bg-transparent text-white hover:bg-white/10 text-lg"
+              >
+                Soy cuidadora
+              </Link>
+            </div>
+          </div>
+          {/* `priority`: es la imagen grande de la primera pantalla, no debe cargar perezosa. */}
+          <Image
+            src={FOTO_PORTADA.src}
+            alt={FOTO_PORTADA.alt}
+            priority
+            sizes="(min-width: 1024px) 45vw, 100vw"
+            className="h-56 w-full object-cover sm:h-72 lg:h-full lg:min-h-[26rem]"
+          />
         </div>
       </section>
 
@@ -110,6 +124,32 @@ export default function HomePage() {
               <p className="mt-2 text-marino-600">{p.d}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Banda de confianza: pone cara al servicio sin prometer nada que no sea cierto. */}
+      <section className="mt-16 overflow-hidden rounded-3xl border border-marino-100 bg-white shadow-sm">
+        <div className="grid items-center md:grid-cols-2">
+          <Image
+            src={FOTO_CONFIANZA.src}
+            alt={FOTO_CONFIANZA.alt}
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="h-56 w-full object-cover sm:h-72 md:h-full md:min-h-[20rem]"
+          />
+          <div className="p-7 sm:p-9">
+            <h2 className="text-2xl font-bold text-marino-800">
+              El cuidado lo acuerdas tú, cara a cara
+            </h2>
+            <p className="mt-3 leading-relaxed text-marino-700">
+              Ves el perfil de cada cuidadora, su experiencia, su zona y su tarifa antes de
+              escribirle. Habláis por el chat, quedáis y decidís vosotros. Nosotros no elegimos
+              por ti ni nos metemos en medio.
+            </p>
+            <p className="mt-3 leading-relaxed text-marino-700">
+              Las cuidadoras son profesionales independientes: ellas ponen su precio y sus
+              horarios, y tú tratas directamente con ellas.
+            </p>
+          </div>
         </div>
       </section>
 

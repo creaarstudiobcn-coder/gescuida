@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatHourlyRange } from "@/lib/pricing";
 import { getPobleCa, POBLES_CA_SLUGS } from "@/lib/pueblos-ca";
+import { fotoParaMunicipio } from "@/lib/fotos";
 
 const BASE = "https://www.gescuida.es"; // con www: ver el comentario de layout.tsx
 
@@ -81,6 +83,8 @@ export default async function CuidadorsPoblePage({
   if (!p) notFound();
 
   const cuidadores = await cuidadoresA(p.name);
+  // Mateix repartiment que la versió castellana: cada municipi, la seva foto.
+  const foto = fotoParaMunicipio(p.slug);
   const url = `${BASE}/ca/cuidadors/${p.slug}`;
 
   const jsonLd = {
@@ -137,6 +141,15 @@ export default async function CuidadorsPoblePage({
         Cuidadores de gent gran a {p.name}
       </h1>
       <p className="mt-4 max-w-3xl text-lg text-marino-600">{p.hero}</p>
+
+      {/* La MATEIXA foto que la pàgina castellana del mateix municipi, amb l'alt en català. */}
+      <Image
+        src={foto.src}
+        alt={`${foto.altCa} — cura de gent gran a domicili a ${p.name}`}
+        priority
+        sizes="(min-width: 1024px) 64rem, 100vw"
+        className="mt-7 h-56 w-full rounded-3xl object-cover shadow-sm sm:h-80"
+      />
 
       {p.sections.map((s) => (
         <section key={s.h2} className="mt-12">
