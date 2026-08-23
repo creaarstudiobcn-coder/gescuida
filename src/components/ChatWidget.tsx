@@ -53,6 +53,10 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
   const [email, setEmail] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Cebo anti-bot: campo oculto que un humano nunca ve ni rellena, pero que los
+  // robots que rastrean formularios sí completan. Si llega con algo, el servidor
+  // descarta el mensaje sin avisar a nadie.
+  const [website, setWebsite] = useState("");
 
   const online = data?.online ?? false;
   const needsContact = data?.needsContact ?? false;
@@ -73,8 +77,8 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(
         needsContact
-          ? { body, name: name.trim() || undefined, email: email.trim(), recaptchaToken }
-          : { body, recaptchaToken }
+          ? { body, name: name.trim() || undefined, email: email.trim(), recaptchaToken, website }
+          : { body, recaptchaToken, website }
       ),
     });
     setSending(false);
@@ -140,6 +144,17 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
 
       {/* Formulario */}
       <form onSubmit={send} className="space-y-2 border-t border-marino-100 p-2">
+        {/* Cebo anti-bot. Fuera de la vista y fuera del tabulador: nadie lo rellena a mano. */}
+        <input
+          type="text"
+          name="website"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          className="absolute left-[-9999px] h-0 w-0 opacity-0"
+        />
         {needsContact && (
           <div className="space-y-2">
             <input

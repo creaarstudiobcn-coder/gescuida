@@ -386,6 +386,11 @@ model ChatSession {
 
   messages ChatMessage[]
 
+  // Hilo silenciado por el admin: se sigue guardando y viendo en el panel, pero NUNCA
+  // vuelve a generar un aviso por email. Es el botón para el spam que escribe un humano
+  // y que ninguna heurística puede distinguir de un mensaje legítimo.
+  blocked Boolean @default(false)
+
   adminReadAt   DateTime? // hasta cuándo ha leído el admin este hilo (badges + email-una-vez)
   lastMessageAt DateTime  @default(now())
   createdAt     DateTime  @default(now())

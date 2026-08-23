@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { SITE_URL } from "@/lib/site-url";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import { auth } from "@/auth";
@@ -8,8 +8,42 @@ import { prisma } from "@/lib/prisma";
 import { verifyRecaptcha } from "@/lib/recaptcha";
 import { sendChatNotificationEmail } from "@/lib/email";
 import { CHAT_COOKIE, isAdminOnline, adminEmails } from "@/lib/chat";
+import {
+  classifyChatMessage,
+  FLOOD_MAX_MESSAGES,
+  FLOOD_WINDOW_MS,
+  NEW_SESSIONS_PER_IP,
+  NEW_SESSIONS_WINDOW_MS,
+} from "@/lib/chat-antispam";
 
 const COOKIE_MAX_AGE = 180 * 24 * 60 * 60; // 180 días
+
+// Conversaciones nuevas abiertas por cada IP, para frenar al que abre hilos en serie.
+// Vive en memoria del proceso: en serverless es "lo que se pueda", pero una ráfaga
+// suele caer en la misma instancia caliente, que es justo lo que queremos cortar.
+const nuevasPorIp = new Map<string, number[]>();
+
+function ipDe(h: Headers): string {
+  return (
+    h.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    h.get("x-real-ip")?.trim() ||
+    "desconocida"
+  );
+}
+
+// ¿Esta IP ha abierto ya demasiadas conversaciones nuevas en la última hora?
+function demasiadasSesionesNuevas(ip: string): boolean {
+  const ahora = Date.now();
+  const previas = (nuevasPorIp.get(ip) ?? []).filter((t) => ahora - t < NEW_SESSIONS_WINDOW_MS);
+  if (previas.length >= NEW_SESSIONS_PER_IP) {
+    nuevasPorIp.set(ip, previas);
+    return true;
+  }
+  previas.push(ahora);
+  nuevasPorIp.set(ip, previas);
+  if (nuevasPorIp.size > 5000) nuevasPorIp.clear(); // techo de memoria
+  return false;
+}
 
 function serialize(messages: { id: string; body: string; fromAdmin: boolean; createdAt: Date }[]) {
   return messages.map((m) => ({
@@ -55,6 +89,8 @@ const sendSchema = z.object({
   name: z.string().max(120).optional(),
   email: z.string().email().max(160).optional(),
   recaptchaToken: z.string().optional(),
+  // Cebo: campo oculto que ningún humano ve ni rellena. Si viene con algo, es un bot.
+  website: z.string().max(200).optional(),
 });
 
 // POST /api/chat → el visitante envía un mensaje (crea la sesión la primera vez).
@@ -62,6 +98,14 @@ export async function POST(req: Request) {
   const parsed = sendSchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "Datos no válidos" }, { status: 400 });
   const { body, name, email } = parsed.data;
+
+  // ── Cebo (honeypot) ──
+  // Le devolvemos un "ok" para que el bot se dé por satisfecho y no reintente,
+  // pero no guardamos nada ni avisamos a nadie.
+  if (parsed.data.website?.trim()) {
+    console.warn("[chat] descartado por honeypot");
+    return NextResponse.json({ ok: true, online: false }, { status: 201 });
+  }
 
   // Anti-bot/spam: reCAPTCHA v3. Si no está configurado, no bloquea.
   const rc = await verifyRecaptcha(parsed.data.recaptchaToken, "chat");
@@ -71,6 +115,9 @@ export async function POST(req: Request) {
       { status: 400 }
     );
   }
+  // Aunque no bloquee (modo monitor), una puntuación baja sí basta para NO dar la
+  // tabarra por email: el mensaje se guarda y se ve en el panel.
+  const recaptchaSospechoso = rc.reason === "low_score" || rc.reason === "action_mismatch";
 
   const cookieStore = await cookies();
   const token = cookieStore.get(CHAT_COOKIE)?.value;
@@ -94,6 +141,16 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+    // Freno a quien abre conversaciones en serie desde la misma IP.
+    if (!authUser && demasiadasSesionesNuevas(ipDe(await headers()))) {
+      return NextResponse.json(
+        {
+          error: "Has abierto varias conversaciones seguidas. Espera un rato o escríbenos por email.",
+          code: "RATE_LIMIT",
+        },
+        { status: 429 }
+      );
+    }
     newToken = randomUUID();
     chat = await prisma.chatSession.create({
       data: {
@@ -103,7 +160,33 @@ export async function POST(req: Request) {
         visitorEmail,
       },
     });
+  } else {
+    // Freno a la ráfaga dentro de un hilo que ya existe. Su historial no se pierde:
+    // solo le pedimos que baje el ritmo.
+    const recientes = await prisma.chatMessage.count({
+      where: {
+        sessionId: chat.id,
+        fromAdmin: false,
+        createdAt: { gt: new Date(Date.now() - FLOOD_WINDOW_MS) },
+      },
+    });
+    if (recientes >= FLOOD_MAX_MESSAGES) {
+      return NextResponse.json(
+        {
+          error: "Has enviado muchos mensajes seguidos. Espera unos minutos y seguimos.",
+          code: "RATE_LIMIT",
+        },
+        { status: 429 }
+      );
+    }
   }
+
+  // ── Criba de spam ──
+  // Nunca decide si el mensaje se guarda (se guarda siempre), solo si merece un email.
+  const veredicto = classifyChatMessage(body, {
+    name: chat.visitorName,
+    email: chat.visitorEmail,
+  });
 
   // ¿Tenía el admin mensajes del visitante SIN leer antes de este? Para avisar solo una vez
   // por "ráfaga" y no spamear el email en cada mensaje.
@@ -123,9 +206,17 @@ export async function POST(req: Request) {
     data: { lastMessageAt: new Date() },
   });
 
-  // Aviso por email al admin SOLO si no está conectado y no había mensajes pendientes.
+  // Aviso por email al admin SOLO si no está conectado, no había mensajes pendientes,
+  // el hilo no está silenciado y el mensaje no huele a spam.
   const online = await isAdminOnline();
-  if (!online && pendingBefore === 0) {
+  const silenciado = chat.blocked || veredicto.spam || recaptchaSospechoso;
+  if (silenciado) {
+    console.warn(
+      `[chat] sin aviso por email: bloqueado=${chat.blocked} spam=${veredicto.spam} ` +
+        `score=${veredicto.score} recaptcha=${rc.reason ?? "ok"} motivos=${veredicto.reasons.join("|")}`
+    );
+  }
+  if (!online && pendingBefore === 0 && !silenciado) {
     const base = SITE_URL;
     const preview = body.length > 200 ? `${body.slice(0, 200)}…` : body;
     const tos = await adminEmails();

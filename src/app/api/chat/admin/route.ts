@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { apiAuth } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
+import { classifyChatMessage } from "@/lib/chat-antispam";
 
 // GET /api/chat/admin              → lista de conversaciones (con nº sin leer).
 // GET /api/chat/admin?sessionId=X  → hilo completo de una conversación (la marca como leída).
@@ -29,6 +30,7 @@ export async function GET(req: Request) {
       id: chat.id,
       name: chat.visitorName,
       email: chat.visitorEmail,
+      blocked: chat.blocked,
       messages: chat.messages.map((m) => ({
         id: m.id,
         body: m.body,
@@ -55,6 +57,11 @@ export async function GET(req: Request) {
         },
       });
       const last = s.messages[0];
+      // La criba se calcula al vuelo: así también marca las conversaciones antiguas
+      // y no hace falta guardar nada en la base de datos.
+      const veredicto = last && !last.fromAdmin
+        ? classifyChatMessage(last.body, { name: s.visitorName, email: s.visitorEmail })
+        : null;
       return {
         id: s.id,
         name: s.visitorName,
@@ -62,6 +69,9 @@ export async function GET(req: Request) {
         lastBody: last?.body ?? "",
         lastAt: s.lastMessageAt,
         unread,
+        blocked: s.blocked,
+        spam: veredicto?.spam ?? false,
+        spamReasons: veredicto?.spam ? veredicto.reasons : [],
       };
     })
   );
@@ -95,4 +105,29 @@ export async function POST(req: Request) {
   });
 
   return NextResponse.json({ ok: true }, { status: 201 });
+}
+
+const blockSchema = z.object({
+  sessionId: z.string().min(1),
+  blocked: z.boolean(),
+});
+
+// PATCH /api/chat/admin → silencia (o reactiva) los avisos por email de una conversación.
+// Nunca borra nada: el hilo sigue en el panel y el visitante puede seguir escribiendo.
+export async function PATCH(req: Request) {
+  const { res } = await apiAuth("ADMIN");
+  if (res) return res;
+
+  const parsed = blockSchema.safeParse(await req.json().catch(() => null));
+  if (!parsed.success) return NextResponse.json({ error: "Datos no válidos" }, { status: 400 });
+
+  const chat = await prisma.chatSession.findUnique({ where: { id: parsed.data.sessionId } });
+  if (!chat) return NextResponse.json({ error: "No encontrada" }, { status: 404 });
+
+  await prisma.chatSession.update({
+    where: { id: chat.id },
+    data: { blocked: parsed.data.blocked },
+  });
+
+  return NextResponse.json({ ok: true, blocked: parsed.data.blocked });
 }

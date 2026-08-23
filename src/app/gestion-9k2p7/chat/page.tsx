@@ -11,6 +11,9 @@ interface SessionItem {
   lastBody: string;
   lastAt: string;
   unread: number;
+  blocked: boolean;
+  spam: boolean;
+  spamReasons: string[];
 }
 
 interface Msg {
@@ -28,8 +31,9 @@ interface Thread {
 }
 
 export default function AdminChatPage() {
-  const { data, loading } = usePolling<SessionItem[]>("/api/chat/admin", 6000);
+  const { data, loading, refresh } = usePolling<SessionItem[]>("/api/chat/admin", 6000);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [verSpam, setVerSpam] = useState(false);
 
   // Latido de presencia: mientras esta página esté abierta, el visitante nos ve "en línea".
   useEffect(() => {
@@ -39,9 +43,25 @@ export default function AdminChatPage() {
     return () => clearInterval(id);
   }, []);
 
-  const sessions = data ?? [];
-  const activeId = selectedId ?? sessions[0]?.id ?? null;
+  const todas = data ?? [];
+  const descartadas = todas.filter((s) => s.spam || s.blocked);
+  // Por defecto la bandeja solo enseña lo que parece una conversación de verdad.
+  const sessions = verSpam ? todas : todas.filter((s) => !s.spam && !s.blocked);
+  const activeId =
+    selectedId && sessions.some((s) => s.id === selectedId)
+      ? selectedId
+      : sessions[0]?.id ?? null;
   const active = sessions.find((s) => s.id === activeId) ?? null;
+
+  // Silencia o reactiva los avisos por email de una conversación.
+  async function toggleBlock(sessionId: string, blocked: boolean) {
+    await fetch("/api/chat/admin", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId, blocked }),
+    });
+    refresh();
+  }
 
   return (
     <div className="space-y-5">
@@ -51,13 +71,30 @@ export default function AdminChatPage() {
           Mensajes que llegan desde el chat de la web. Mientras tengas esta página abierta, los
           visitantes te ven <strong>en línea</strong>. Si la cierras, recibirás un aviso por email.
         </p>
+        <p className="mt-1 text-sm text-marino-400">
+          Los mensajes que parecen spam se guardan igual, pero <strong>no te avisan por email</strong>.
+          Si uno cuela, silencia la conversación y no volverá a avisarte.
+        </p>
+        {descartadas.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setVerSpam((v) => !v)}
+            className="mt-2 text-sm text-calido-700 underline"
+          >
+            {verSpam
+              ? "Ocultar spam y silenciadas"
+              : `Ver spam y silenciadas (${descartadas.length})`}
+          </button>
+        )}
       </div>
 
       {loading && !data ? (
         <p className="text-marino-400">Cargando…</p>
       ) : sessions.length === 0 ? (
         <div className="card text-center text-marino-500">
-          Todavía no hay conversaciones. Cuando alguien escriba por el chat de la web, aparecerá aquí.
+          {todas.length === 0
+            ? "Todavía no hay conversaciones. Cuando alguien escriba por el chat de la web, aparecerá aquí."
+            : "Ninguna conversación pendiente. El resto está marcado como spam o silenciado."}
         </div>
       ) : (
         <div className="grid gap-5 md:grid-cols-[280px_1fr]">
@@ -84,6 +121,12 @@ export default function AdminChatPage() {
                       </span>
                     )}
                   </div>
+                  {(s.spam || s.blocked) && (
+                    <p className="mt-1 text-[11px] font-semibold text-marino-400">
+                      {s.blocked ? "🔕 Silenciada" : "🚩 Posible spam"}
+                      {s.spam && s.spamReasons.length > 0 && ` · ${s.spamReasons.join(", ")}`}
+                    </p>
+                  )}
                   <p className="mt-0.5 truncate text-sm text-marino-500">{s.lastBody}</p>
                   <p className="mt-0.5 text-[11px] text-marino-400">{fmtTime(s.lastAt)}</p>
                 </button>
@@ -95,15 +138,24 @@ export default function AdminChatPage() {
           <div>
             {active && (
               <>
-                <div className="mb-2">
-                  <h2 className="font-bold text-marino-800">
-                    {active.name?.trim() || "Visitante"}
-                  </h2>
-                  {active.email && (
-                    <a href={`mailto:${active.email}`} className="text-sm text-calido-700 underline">
-                      {active.email}
-                    </a>
-                  )}
+                <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
+                  <div>
+                    <h2 className="font-bold text-marino-800">
+                      {active.name?.trim() || "Visitante"}
+                    </h2>
+                    {active.email && (
+                      <a href={`mailto:${active.email}`} className="text-sm text-calido-700 underline">
+                        {active.email}
+                      </a>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => toggleBlock(active.id, !active.blocked)}
+                    className="rounded-lg border border-marino-200 px-3 py-1.5 text-sm text-marino-600 transition hover:bg-crema-50"
+                  >
+                    {active.blocked ? "🔔 Volver a avisarme" : "🔕 No avisarme de esta"}
+                  </button>
                 </div>
                 <AdminChatThread sessionId={active.id} />
               </>

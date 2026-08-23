@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { escapaHtml } from "@/lib/chat-antispam";
 
 // Envío de correos transaccionales con Resend.
 //
@@ -116,6 +117,11 @@ export async function sendChatNotificationEmail(
   const { visitorName, visitorEmail, preview, panelUrl } = opts;
   const quien = visitorName?.trim() || "Un visitante";
   const contacto = visitorEmail?.trim() ? ` (${visitorEmail.trim()})` : "";
+  // Lo escribe un desconocido: se escapa antes de meterlo en el HTML del correo,
+  // o cualquiera podría colar enlaces y etiquetas en tu bandeja de entrada.
+  const quienHtml = escapaHtml(quien);
+  const contactoHtml = escapaHtml(contacto);
+  const previewHtml = escapaHtml(preview);
   const subject = "Nuevo mensaje en el chat de la web — GesCuida";
   const text =
     `${quien}${contacto} te ha escrito por el chat de la web:\n\n` +
@@ -125,9 +131,9 @@ export async function sendChatNotificationEmail(
   const html = `
   <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:480px;margin:0 auto;color:#1f2d3d">
     <h1 style="font-size:20px;color:#1f5e44">Nuevo mensaje en el chat de la web</h1>
-    <p><strong>${quien}</strong>${contacto} te ha escrito:</p>
+    <p><strong>${quienHtml}</strong>${contactoHtml} te ha escrito:</p>
     <blockquote style="margin:16px 0;padding:12px 16px;border-left:4px solid #2E9B72;background:#f0faf5;border-radius:6px;color:#1f2d3d">
-      ${preview}
+      ${previewHtml}
     </blockquote>
     <p style="text-align:center;margin:28px 0">
       <a href="${panelUrl}"
