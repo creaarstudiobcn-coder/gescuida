@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { formatHourlyRange } from "@/lib/pricing";
 import { getPobleCa, POBLES_CA_SLUGS } from "@/lib/pueblos-ca";
 import { fotoParaMunicipio } from "@/lib/fotos";
+import { OG_IMAGES } from "@/lib/og";
 
 const BASE = "https://www.gescuida.es"; // con www: ver el comentario de layout.tsx
 
@@ -47,7 +48,7 @@ export async function generateMetadata({
          solo lo declara una de las dos, Google lo ignora. */
       languages: { ca: url, es },
     },
-    openGraph: { title: p.seoTitle, description: p.seoDescription, url, type: "website", locale: "ca_ES" },
+    openGraph: { title: p.seoTitle, description: p.seoDescription, url, type: "website", locale: "ca_ES", images: OG_IMAGES },
   };
 }
 

@@ -8,6 +8,7 @@ import { getPueblo, pueblosSlugs } from "@/lib/pueblos";
 import { POBLES_CA_SLUGS } from "@/lib/pueblos-ca";
 import { ZonasLinks } from "@/components/ZonasLinks";
 import { fotoParaMunicipio } from "@/lib/fotos";
+import { OG_IMAGES } from "@/lib/og";
 
 const BASE = "https://www.gescuida.es"; // con www: ver el comentario de layout.tsx
 
@@ -44,6 +45,7 @@ export async function generateMetadata({
       description: p.seoDescription,
       url,
       type: "website",
+      images: OG_IMAGES,
     },
   };
 }
