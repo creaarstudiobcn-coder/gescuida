@@ -6,6 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { formatHourlyRange } from "@/lib/pricing";
 import { getPobleCa, POBLES_CA_SLUGS } from "@/lib/pueblos-ca";
 import { fotoParaMunicipio } from "@/lib/fotos";
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { OG_IMAGES } from "@/lib/og";
 
 const BASE = "https://www.gescuida.es"; // con www: ver el comentario de layout.tsx
@@ -29,6 +31,16 @@ export function generateStaticParams() {
   return POBLES_CA_SLUGS.map((poble) => ({ poble }));
 }
 
+/**
+ * Imagen al compartir en català, amb l'H1 real de cada poble
+ * (`public/og/ca/<poble>.jpg`, feta amb la mateixa plantilla que la castellana).
+ * Si un poble nou encara no en té, surt la general de la marca.
+ */
+function ogCa(poble: string, alt: string) {
+  if (!existsSync(path.join(process.cwd(), "public/og/ca", `${poble}.jpg`))) return OG_IMAGES;
+  return [{ url: `/og/ca/${poble}.jpg`, width: 1200, height: 630, alt }];
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -48,7 +60,7 @@ export async function generateMetadata({
          solo lo declara una de las dos, Google lo ignora. */
       languages: { ca: url, es },
     },
-    openGraph: { title: p.seoTitle, description: p.seoDescription, url, type: "website", locale: "ca_ES", images: OG_IMAGES },
+    openGraph: { title: p.seoTitle, description: p.seoDescription, url, type: "website", locale: "ca_ES", images: ogCa(poble, `Cuidadores de gent gran a ${p.name}`) },
   };
 }
 
