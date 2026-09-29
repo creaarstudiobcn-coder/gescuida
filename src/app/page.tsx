@@ -4,6 +4,13 @@ import { ACCESS_PLANS, formatEuros } from "@/lib/pricing";
 import { FOTO_PORTADA, FOTO_CONFIANZA } from "@/lib/fotos";
 import { ZonasLinks } from "@/components/ZonasLinks";
 import { CuidadorasProceso } from "@/components/CuidadorasProceso";
+import type { Metadata } from "next";
+
+// Canónica de la portada: con metadataBase en www, "/" sale como
+// https://www.gescuida.es, que es el host que sirve la web (el ápex redirige).
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const PASOS = [
   {

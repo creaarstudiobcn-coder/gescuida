@@ -30,6 +30,17 @@ export const metadata: Metadata = {
     ],
     apple: "/favicon/favicon-180.png",
   },
+  // Vista previa al compartir el enlace (WhatsApp, redes). 1200×630.
+  openGraph: {
+    images: [
+      {
+        url: "/og-portada.jpg",
+        width: 1200,
+        height: 630,
+        alt: "GesCuida — Encuentra cuidadora de confianza en Mataró y el Maresme",
+      },
+    ],
+  },
 };
 
 export const viewport: Viewport = {
