@@ -32,6 +32,10 @@ Nos ayudan a medir y mejorar el uso del sitio. **Solo se instalan si las aceptas
 
 > **Chat de soporte:** el chat de la web es **propio** y funciona dentro de la plataforma; no instala cookies de terceros ni de seguimiento. Únicamente puede usar almacenamiento técnico de primera parte estrictamente necesario para mostrarte tu conversación, que está exento de consentimiento (art. 22.2 LSSI).
 
+### c) Recuento de visitas (sin cookies)
+
+Además, contamos de forma agregada las páginas vistas y los clics en teléfono, WhatsApp, correo o formulario, para saber qué páginas funcionan. No usa cookies, no guarda nada en tu navegador y no recoge datos que te identifiquen, así que no necesita tu consentimiento.
+
 ## 3. Tu consentimiento y cómo gestionarlo
 
 En tu primera visita te mostramos un **aviso de cookies** donde puedes:

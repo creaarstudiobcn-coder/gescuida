@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { CookieConsent } from "@/components/CookieConsent";
+import Script from "next/script";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { ChatWidget } from "@/components/ChatWidget";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -59,6 +60,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             oculta en zonas privadas (paneles) y pantallas de autenticación. */}
         <SiteFooter />
         <CookieConsent />
+        {/* Contador del grupo: sin cookies ni datos personales, no necesita consentimiento */}
+        <Script src="https://contador-grupo.vercel.app/s.js" strategy="afterInteractive" />
         <GoogleAnalytics />
         <ChatWidget />
       </body>
