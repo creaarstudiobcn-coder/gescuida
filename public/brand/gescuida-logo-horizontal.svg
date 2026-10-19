@@ -9,6 +9,6 @@
   <path d="M70 63 C68 74.5 60 80.5 50.5 81.5" stroke="#2E9B72" stroke-width="5.5" stroke-linecap="round" fill="none"></path>
   </g>
 </g>
-<text x="178" y="86" class="w"><tspan fill="#2E9B72">GES</tspan><tspan fill="#14533C">CUIDA</tspan></text>
-<text x="180" y="120" class="t" fill="#8a948e">CUIDADORAS DE CONFIANZA</text>
+<text x="178" y="92" class="w" font-family="Plus Jakarta Sans, Helvetica Neue, Arial, sans-serif" font-size="66" font-weight="800" letter-spacing="1"><tspan fill="#2E9B72">GES</tspan><tspan fill="#14533C">CUIDA</tspan></text>
+<text x="181" y="128" class="t" font-family="Plus Jakarta Sans, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="600" letter-spacing="4.2" fill="#8a948e">CUIDADORAS DE CONFIANZA</text>
 </svg>

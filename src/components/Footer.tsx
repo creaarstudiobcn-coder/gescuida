@@ -23,14 +23,14 @@ function InstagramIcon() {
 
 export function Footer() {
   return (
-    <footer className="mt-16 rounded-2xl bg-marino-900 px-6 py-8 text-center text-sm text-salvia-100">
+    <footer className="mt-16 bg-marino-900 px-6 pb-24 pt-12 text-center text-sm text-salvia-100">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/brand/gescuida-logo-horizontal-oscuro.svg"
         alt="GesCuida"
         width={160}
         height={45}
-        className="mx-auto h-10 w-auto sm:h-11"
+        className="mx-auto h-12 w-auto sm:h-16"
       />
       <p className="mt-3">Mataró i el Maresme</p>
 

@@ -44,7 +44,7 @@ export default function RecuperarPage() {
           alt="GesCuida"
           width={170}
           height={48}
-          className="h-11 w-auto sm:h-12"
+          className="h-14 w-auto sm:h-16"
         />
       </Link>
       <div className="card">

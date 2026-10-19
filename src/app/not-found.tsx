@@ -28,7 +28,7 @@ export default function NotFound() {
             alt="GesCuida"
             width={170}
             height={48}
-            className="h-10 w-auto sm:h-12"
+            className="h-14 w-auto sm:h-20"
           />
         </Link>
         <nav className="flex items-center gap-1.5 sm:gap-2">

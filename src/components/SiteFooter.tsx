@@ -31,8 +31,6 @@ export function SiteFooter() {
   if (hidden) return null;
 
   return (
-    <div className="mx-auto max-w-5xl px-5 pb-20">
-      <Footer />
-    </div>
+    <Footer />
   );
 }

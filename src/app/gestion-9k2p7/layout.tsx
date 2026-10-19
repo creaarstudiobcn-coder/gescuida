@@ -19,7 +19,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
     { href: "/gestion-9k2p7/stripe", label: "Pagos", icon: "💳" },
   ];
   return (
-    <DashboardShell title="Administración" userName={user.name ?? ""} nav={nav}>
+    <DashboardShell title="Administración" userName={user.name ?? ""} nav={nav} ancho>
       {children}
     </DashboardShell>
   );
