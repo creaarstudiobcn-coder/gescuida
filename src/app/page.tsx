@@ -62,25 +62,13 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Hero a sangre: la foto ocupa todo el ancho y el texto va encima, sobre un
-          degradado verde que garantiza el contraste. `priority`: es la imagen grande
-          de la primera pantalla, no debe cargar perezosa. */}
-      <section className="relative isolate overflow-hidden bg-marino-900 text-white">
-        <Image
-          src={FOTO_PORTADA.src}
-          alt={FOTO_PORTADA.alt}
-          priority
-          fill
-          sizes="100vw"
-          className="-z-10 object-cover object-[70%_center]"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 bg-gradient-to-b from-marino-900/85 via-marino-900/70 to-marino-900/90 md:bg-gradient-to-r md:from-marino-900/95 md:via-marino-900/75 md:to-marino-900/10"
-        />
-        <div className="mx-auto flex min-h-[34rem] max-w-7xl flex-col justify-center px-5 py-16 sm:px-8 md:min-h-[38rem] lg:min-h-[42rem]">
+      {/* Hero a ancho completo: texto sobre verde en una mitad y la foto ENTERA en la
+          otra, con su proporción original (3:2) para que no se corte ninguna cara.
+          `priority`: es la imagen grande de la primera pantalla, no debe cargar perezosa. */}
+      <section className="grid bg-marino-900 text-white lg:grid-cols-2">
+        <div className="flex items-center px-5 py-14 sm:px-8 lg:py-16 lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:pr-12">
           <div className="max-w-2xl">
-            <h1 className="text-4xl font-extrabold leading-[1.08] sm:text-5xl lg:text-6xl">
+            <h1 className="text-4xl font-extrabold leading-[1.08] sm:text-5xl xl:text-6xl">
               Encuentra cuidadora de confianza en Mataró y el Maresme
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-salvia-50 sm:text-xl">
@@ -99,6 +87,15 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+        </div>
+        <div className="flex items-center">
+          <Image
+            src={FOTO_PORTADA.src}
+            alt={FOTO_PORTADA.alt}
+            priority
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="h-auto w-full"
+          />
         </div>
       </section>
 
@@ -137,16 +134,14 @@ export default function HomePage() {
 
       {/* Banda de confianza: foto a sangre en una mitad. Pone cara al servicio sin
           prometer nada que no sea cierto. */}
-      <section className="grid bg-white md:grid-cols-2">
-        <div className="relative h-72 sm:h-96 md:h-auto md:min-h-[32rem]">
-          <Image
-            src={FOTO_CONFIANZA.src}
-            alt={FOTO_CONFIANZA.alt}
-            fill
-            sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover"
-          />
-        </div>
+      <section className="grid items-center bg-white md:grid-cols-2">
+        {/* Foto entera, con su proporción: sin recortar a la señora ni las manos. */}
+        <Image
+          src={FOTO_CONFIANZA.src}
+          alt={FOTO_CONFIANZA.alt}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="h-auto w-full"
+        />
         <div className="flex items-center px-5 py-14 sm:px-10 lg:px-16">
           <div className="max-w-xl">
             <h2 className="text-3xl font-extrabold leading-tight text-marino-800 sm:text-4xl">

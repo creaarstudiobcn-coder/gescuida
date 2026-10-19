@@ -161,7 +161,7 @@ export default async function CuidadorsPoblePage({
         alt={`${foto.altCa} — cura de gent gran a domicili a ${p.name}`}
         priority
         sizes="(min-width: 1024px) 64rem, 100vw"
-        className="mt-7 h-56 w-full rounded-3xl object-cover shadow-sm sm:h-80"
+        className="mt-7 h-auto w-full rounded-3xl shadow-sm"
       />
 
       {p.sections.map((s) => (

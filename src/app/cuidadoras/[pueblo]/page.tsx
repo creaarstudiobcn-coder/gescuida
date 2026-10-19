@@ -180,7 +180,7 @@ export default async function CuidadorasPuebloPage({
             alt={`${foto.alt} — cuidado de mayores a domicilio en ${p.name}`}
             priority
             sizes="(min-width: 1024px) 45vw, 100vw"
-            className="h-56 w-full object-cover sm:h-72 lg:h-full lg:min-h-[24rem]"
+            className="h-auto w-full"
           />
         </div>
       </section>
