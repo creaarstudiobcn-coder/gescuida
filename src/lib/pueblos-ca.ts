@@ -39,7 +39,7 @@ export const POBLES_CA: PuebloSeo[] = [
     geo: "costero",
     comarca: "Maresme",
     regionLabel: "Maresme · capital",
-    seoTitle: "Cuidadora de gent gran a Mataró | Ajuda a domicili — GesCuida",
+    seoTitle: "Cuidadors de gent gran a Mataró | Ajuda a domicili — GesCuida",
     seoDescription:
       "Busques cuidadora per a una persona gran a Mataró? Contacta directament amb cuidadores de la ciutat i el Maresme. Tries tu, sense agències pel mig.",
     hero:
@@ -82,7 +82,7 @@ export const POBLES_CA: PuebloSeo[] = [
     geo: "interior",
     comarca: "Anoia",
     regionLabel: "Anoia · capital",
-    seoTitle: "Cuidadora de gent gran a Igualada | Ajuda a domicili — GesCuida",
+    seoTitle: "Cuidadors de gent gran a Igualada | Ajuda a domicili — GesCuida",
     seoDescription:
       "Cuidadores per a gent gran a Igualada i a l'Anoia. Contacte directe, sense agències: compares, parles amb elles i tries tu qui entra a casa.",
     hero:
@@ -124,7 +124,7 @@ export const POBLES_CA: PuebloSeo[] = [
     geo: "costero",
     comarca: "Barcelonès",
     regionLabel: "Barcelonès · àrea metropolitana",
-    seoTitle: "Cuidadora de gent gran a Badalona | Ajuda a domicili — GesCuida",
+    seoTitle: "Cuidadors de gent gran a Badalona | Ajuda a domicili — GesCuida",
     seoDescription:
       "Cuidadores per a persones grans a Badalona. Contacte directe amb cuidadores de la ciutat, sense agències. Compares tarifes i tries tu.",
     hero:
@@ -164,7 +164,7 @@ export const POBLES_CA: PuebloSeo[] = [
     geo: "costero",
     comarca: "Garraf",
     regionLabel: "Garraf · capital",
-    seoTitle: "Cuidadora de gent gran a Vilanova i la Geltrú | GesCuida",
+    seoTitle: "Cuidadors de gent gran a Vilanova i la Geltrú | Ajuda a domicili — GesCuida",
     seoDescription:
       "Cuidadores per a gent gran a Vilanova i la Geltrú i al Garraf. Contacte directe, tarifes clares i tu tries la persona.",
     hero:
@@ -199,7 +199,7 @@ export const POBLES_CA: PuebloSeo[] = [
     geo: "interior",
     comarca: "Bages",
     regionLabel: "Bages · capital",
-    seoTitle: "Cuidadora de gent gran a Manresa | Ajuda a domicili — GesCuida",
+    seoTitle: "Cuidadors de gent gran a Manresa | Ajuda a domicili — GesCuida",
     seoDescription:
       "Cuidadores per a persones grans a Manresa i al Bages. Contacte directe amb cuidadores de la zona, sense agències pel mig.",
     hero:
@@ -234,7 +234,7 @@ export const POBLES_CA: PuebloSeo[] = [
     geo: "interior",
     comarca: "Vallès Occidental",
     regionLabel: "Vallès Occidental · co-capital",
-    seoTitle: "Cuidadora de gent gran a Sabadell | Ajuda a domicili — GesCuida",
+    seoTitle: "Cuidadors de gent gran a Sabadell | Ajuda a domicili — GesCuida",
     seoDescription:
       "Cuidadores per a gent gran a Sabadell. Contacte directe, tarifes acordades amb la cuidadora i tu tries qui entra a casa.",
     hero:
@@ -274,7 +274,7 @@ export const POBLES_CA: PuebloSeo[] = [
     geo: "interior",
     comarca: "Vallès Occidental",
     regionLabel: "Vallès Occidental · co-capital",
-    seoTitle: "Cuidadora de gent gran a Terrassa | Ajuda a domicili — GesCuida",
+    seoTitle: "Cuidadors de gent gran a Terrassa | Ajuda a domicili — GesCuida",
     seoDescription:
       "Cuidadores per a persones grans a Terrassa. Contacte directe amb cuidadores de la ciutat i del Vallès, sense intermediaris.",
     hero:

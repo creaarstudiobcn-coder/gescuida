@@ -175,6 +175,26 @@ export default async function CuidadorsPoblePage({
         </section>
       ))}
 
+      {/* Per hores o interna: el que més es busca en català («cuidador per hores»,
+          «ajuda a domicili»). Només on la fitxa del poble no ho explica ja (Mataró i
+          Terrassa sí), i només el que la plataforma fa de debò: tarifa per hora i
+          disponibilitat de cada cuidadora; la resta es parla amb ella. */}
+      {!p.sections.some((s) => /hores/i.test(s.h2)) && (
+        <section className="mt-12">
+          <h2 className="text-2xl font-bold text-marino-800">Cuidador per hores o intern a {p.name}</h2>
+          <p className="mt-3 max-w-3xl text-marino-600">
+            L&apos;ajuda a domicili no és igual per a totes les famílies. Hi ha qui necessita algú unes
+            hores al dia —per a la dutxa, els àpats, acompanyar al metge o donar un respir a qui
+            cuida— i qui busca una cuidadora interna que visqui a casa.
+          </p>
+          <p className="mt-3 max-w-3xl text-marino-600">
+            Cada cuidadora indica la seva tarifa per hora i quan està disponible; si el que necessiteu
+            és una interna, li ho plantegeu pel xat i ho acordeu directament amb ella. En aquest cas,
+            la contracta la família com a treballadora de la llar.
+          </p>
+        </section>
+      )}
+
       {/* Cuidadores de la zona, de la base de datos */}
       <section className="mt-14">
         <h2 className="text-2xl font-bold text-marino-800">Cuidadores a {p.name}</h2>

@@ -84,6 +84,7 @@ export default async function CuidadorasPuebloPage({
   if (!p) notFound();
 
   const cuidadoras = await caregiversIn(p.name);
+  const tieneCa = (POBLES_CA_SLUGS as readonly string[]).includes(p.slug);
   // Cada municipio recibe siempre la misma foto (reparto estable por su slug),
   // pero pueblos distintos enseñan fotos distintas: así las 33 páginas que salen
   // de esta misma plantilla no se ven todas iguales.
@@ -185,6 +186,23 @@ export default async function CuidadorasPuebloPage({
         </div>
       </section>
 
+      {/* Enlace visible a la versión catalana. Buena parte de las búsquedas de estos
+          siete municipios llegan en catalán y Google les sigue sirviendo esta página:
+          el hreflang solo no basta, así que también se enlaza a la vista. */}
+      {tieneCa && (
+        <p lang="ca" className="mt-5 text-marino-600">
+          També en català:{" "}
+          <Link
+            href={`/ca/cuidadors/${p.slug}`}
+            hrefLang="ca"
+            className="font-semibold text-marino-800 underline hover:text-marino-600"
+          >
+            cuidadors de gent gran i ajuda a domicili a {p.name}
+          </Link>
+          .
+        </p>
+      )}
+
       {/* Secciones de contenido único (estructura variable por pueblo) */}
       <div className="mt-12 space-y-10">
         {p.sections.map((s, i) => (
@@ -199,6 +217,30 @@ export default async function CuidadorasPuebloPage({
             </div>
           </section>
         ))}
+
+        {/* Por horas o interna: es lo que más se busca junto al municipio («cuidador por
+            horas», «cuidador interno»). Solo donde la ficha del pueblo no lo cuenta ya, y
+            solo lo que la plataforma hace de verdad: tarifa por hora y disponibilidad de
+            cada cuidadora; lo demás se habla con ella. */}
+        {!p.sections.some((s) => /horas/i.test(s.h2)) && (
+          <section>
+            <h2 className="text-2xl font-bold text-marino-800">
+              Cuidador por horas o interno en {p.name}
+            </h2>
+            <div className="mt-3 space-y-3 text-marino-700">
+              <p className="text-base leading-relaxed sm:text-lg">
+                No todas las familias necesitan la misma ayuda a domicilio. Hay quien busca a alguien
+                unas horas al día —para el aseo, las comidas, acompañar al médico o dar un respiro a
+                quien cuida— y quien necesita una cuidadora interna que viva en casa.
+              </p>
+              <p className="text-base leading-relaxed sm:text-lg">
+                Cada cuidadora indica su tarifa por hora y cuándo está disponible; si lo que necesitáis
+                es una interna, se lo planteáis por el chat y lo acordáis directamente con ella. En ese
+                caso, la contrata la familia como empleada de hogar.
+              </p>
+            </div>
+          </section>
+        )}
       </div>
 
       {/* Cuidadoras de la zona (contenido real de la BD) */}

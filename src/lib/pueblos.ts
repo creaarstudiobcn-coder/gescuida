@@ -745,7 +745,7 @@ export const PUEBLOS_SEO: PuebloSeo[] = [
     geo: "interior",
     comarca: "Bages",
     regionLabel: "Bages · capital",
-    seoTitle: "Cuidadora de mayores en Manresa — GesCuida",
+    seoTitle: "Cuidadora de mayores en Manresa | Ayuda a domicilio — GesCuida",
     seoDescription:
       "Cuidadoras de personas mayores en Manresa, capital del Bages. Conecta con cuidadoras de la zona; tú eliges y acuerdas el cuidado directamente, sin agencias.",
     hero:
@@ -801,7 +801,7 @@ export const PUEBLOS_SEO: PuebloSeo[] = [
     geo: "costero",
     comarca: "Garraf",
     regionLabel: "Garraf · capital",
-    seoTitle: "Cuidadora de mayores en Vilanova i la Geltrú — GesCuida",
+    seoTitle: "Cuidadora de mayores en Vilanova i la Geltrú | Ayuda a domicilio — GesCuida",
     seoDescription:
       "Cuidadoras de personas mayores en Vilanova i la Geltrú, capital del Garraf. Conecta con cuidadoras de la zona; tú eliges y acuerdas el cuidado directamente.",
     hero:
@@ -907,7 +907,7 @@ export const PUEBLOS_SEO: PuebloSeo[] = [
     geo: "interior",
     comarca: "Anoia",
     regionLabel: "Anoia · capital",
-    seoTitle: "Cuidadora de mayores en Igualada — GesCuida",
+    seoTitle: "Cuidadora de mayores en Igualada | Ayuda a domicilio — GesCuida",
     seoDescription:
       "Cuidadoras de personas mayores en Igualada, capital de la Anoia. Conecta con cuidadoras de la zona; tú eliges y acuerdas el cuidado directamente, sin intermediarios.",
     hero:
