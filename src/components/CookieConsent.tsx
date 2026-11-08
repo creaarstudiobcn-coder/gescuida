@@ -83,16 +83,15 @@ export function CookieConsent() {
       aria-label="Aviso de cookies"
       className="fixed inset-x-0 bottom-0 z-50 p-3 sm:p-4"
     >
-      <div className="mx-auto max-w-3xl rounded-2xl border border-marino-100 bg-crema-50 p-5 shadow-xl sm:p-6">
-        <h2 className="text-lg font-bold text-marino-800">🍪 Tu privacidad</h2>
-        <p className="mt-2 text-sm text-marino-700">
-          Usamos cookies <strong>necesarias</strong> para que la web funcione y, solo con tu
-          permiso, cookies <strong>analíticas</strong> para mejorar el sitio. Puedes aceptarlas,
-          rechazarlas o configurarlas. Más información en nuestra{" "}
+      {/* Compacto: en el móvil no debe tapar el titular ni los botones de la portada. */}
+      <div className="mx-auto max-w-3xl rounded-2xl border border-marino-100 bg-crema-50 p-3 shadow-xl sm:p-6">
+        <p className="text-[13px] leading-snug text-marino-700 sm:text-sm">
+          <strong className="text-marino-800">Cookies:</strong> usamos las necesarias y, solo con
+          tu permiso, analíticas para mejorar la web. Más en la{" "}
           <Link href="/cookies" className="font-semibold text-calido-700 underline">
             Política de Cookies
           </Link>{" "}
-          y en la{" "}
+          y la{" "}
           <Link href="/privacidad" className="font-semibold text-calido-700 underline">
             Política de Privacidad
           </Link>
@@ -131,27 +130,27 @@ export function CookieConsent() {
         )}
 
         {/* Acciones — "Aceptar" y "Rechazar" tienen el MISMO nivel/tamaño (exigencia AEPD) */}
-        <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+        <div className="mt-2.5 flex flex-wrap gap-2 sm:mt-4">
           {!config ? (
             <>
               <button
                 type="button"
                 onClick={() => decide({ analytics: true })}
-                className="btn-primary flex-1"
+                className="btn-primary flex-1 px-3 py-2 text-sm"
               >
-                Aceptar todas
+                Aceptar
               </button>
               <button
                 type="button"
                 onClick={() => decide({ analytics: false })}
-                className="btn-secondary flex-1"
+                className="btn-secondary flex-1 px-3 py-2 text-sm"
               >
                 Rechazar
               </button>
               <button
                 type="button"
                 onClick={() => setConfig(true)}
-                className="btn-ghost flex-1 sm:flex-none"
+                className="btn-ghost w-full py-1 text-sm sm:w-auto sm:flex-none"
               >
                 Configurar
               </button>

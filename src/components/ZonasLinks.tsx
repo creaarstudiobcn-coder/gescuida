@@ -3,15 +3,23 @@ import { PUEBLOS_SEO } from "@/lib/pueblos";
 
 // Enlaces internos entre las páginas de zona (refuerzo SEO + navegación).
 // Se usa en la home y en cada página de pueblo (excluyendo el municipio actual).
-export function ZonasLinks({ excludeSlug }: { excludeSlug?: string }) {
+export function ZonasLinks({
+  excludeSlug,
+  titulo = "Zonas donde operamos",
+  texto = "Conectamos familias y cuidadoras en Barcelona, el Maresme y municipios de la provincia.",
+}: {
+  excludeSlug?: string;
+  titulo?: string;
+  texto?: string;
+}) {
   const pueblos = PUEBLOS_SEO.filter((p) => p.slug !== excludeSlug);
   if (pueblos.length === 0) return null;
 
   return (
     <section className="mt-16">
-      <h2 className="text-center text-2xl font-bold text-marino-800">Zonas donde operamos</h2>
+      <h2 className="text-center text-2xl font-bold text-marino-800">{titulo}</h2>
       <p className="mx-auto mt-2 max-w-2xl text-center text-marino-600">
-        Conectamos familias y cuidadoras en Barcelona, el Maresme y municipios de la provincia.
+        {texto}
       </p>
       <ul className="mx-auto mt-6 flex max-w-3xl flex-wrap justify-center gap-2.5">
         {pueblos.map((p) => (
