@@ -393,6 +393,7 @@ export default function HomePage() {
         <ZonasLinks
           titulo="Mira las cuidadoras de tu pueblo"
           texto="Sin registrarte: elige tu población y verás las cuidadoras que trabajan allí, con su tarifa y su disponibilidad."
+          conCatalan
         />
       </div>
 

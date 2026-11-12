@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ZonasLinks } from "@/components/ZonasLinks";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -266,6 +267,13 @@ export default async function CuidadorsPoblePage({
           ))}
         </section>
       )}
+
+      <ZonasLinks
+        idioma="ca"
+        excludeSlug={p.slug}
+        titulo="Altres municipis on som"
+        texto="Mira les cuidadores d'altres poblacions, sense registrar-te."
+      />
 
       <p className="mt-14 text-sm text-marino-500">
         Aquesta pàgina també està disponible en{" "}
